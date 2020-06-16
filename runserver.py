@@ -1,5 +1,7 @@
 """
-This script runs the MarkPredict application using a development server.
+This script runs the FoodCourt application using a development server.
+
+---> Don't care this file
 """
 
 from os import environ
