@@ -6,6 +6,5 @@ The flask application package.
 """
 
 import os
-import views
 from flask import Flask, render_template
 app = Flask(__name__, template_folder="static")
