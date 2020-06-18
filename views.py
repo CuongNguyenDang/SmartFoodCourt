@@ -3,18 +3,16 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from FoodCourt import app
 import os
 import webbrowser
 import Controller
-
+from momo import getUrl
 
 #Route
 #_____________________________________________________________________________
-@app.route('/')
-@app.route('/home')
-@app.route('/index')
+@app.route('/', methods = ["GET","POST"])
 def home():
     """Renders the home page."""
     return render_template(
@@ -22,6 +20,11 @@ def home():
         title='Home Page',
         year=datetime.now().year,
     )
+
+@app.route('/index')
+@app.route('/home')
+def index():
+    return redirect(url_for('home'))
 
 @app.route('/account')
 def account():
@@ -43,19 +46,29 @@ def order():
 
 
 
-@app.route("/test" , methods=['GET', 'POST'])
-def test():
-    select = request.form.get('comp_select')
+@app.route("/pay" , methods=['GET', 'POST'])
+def pay():
+    select = str(request.form.get('comp_select'))
+    
+    # return render_template(
+    #     "pay.html"
+    # )
+    if select == "thirdService":
+        url = getUrl(100000)
+        return redirect(url)
+
+    
     return(str(select)) # just to see what select is
 
 
-@app.route('/select', methods = ['POST'])
-def pay():
-    # webbrowser.open_new('http://127.0.0.1:5000/table')
-    v = PayView()
-    controller = Controller.Payment(None,None,None,v)
-    controller.startPay()
-    return render_template('index.html')
+
+# @app.route('/select', methods = ['POST'])
+# def pay():
+#     webbrowser.open_new('http://127.0.0.1:5000/table')
+#     v = PayView()
+#     controller = Controller.Payment(None,None,None,v)
+#     controller.startPay()
+#     return render_template('index.html')
 
 #View
 #___________________________________________________________________________________

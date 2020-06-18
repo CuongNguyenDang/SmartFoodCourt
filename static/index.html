@@ -11,6 +11,28 @@
           Content
 ======================-->
 <section class="content"><div class="ic">More Website Templates @ TemplateMonster.com - July 30, 2014!</div>
+
+<!-- test________________________________________________________________________________ -->
+<!-- <form action="/select" method="POST">
+  <input type="submit" value="Pay">
+  </form> -->
+   
+  
+  <form class="form-inline" method="POST" action="/pay">
+    <div class="form-group">
+      <div class="input-group">
+          <span class="input-group-addon" ><p style="color:red;">Chọn phương thức thanh toán</p></span>
+              <select name="comp_select" class="selectpicker form-control">
+                <option value="thirdService">Dịch vụ bên thứ ba</option>
+                <option value="wallet">Ví điện tử</option>
+              </select>
+      </div>
+      <button type="submit" class="btn btn-default">Go</button>
+    </div>
+  </form>
+<!-- end test____________________________________________________________________________ -->
+
+
   <div class="container">
     <div class="row">
       <div class="grid_4">
@@ -142,25 +164,6 @@
   </div>
 </section>
 
-<!-- test________________________________________________________________________________ -->
-<form action="/select" method="POST">
-  <input type="submit" value="Pay">
-  </form>
-  
-  
-  <form class="form-inline" method="POST" action="/test">
-    <div class="form-group">
-      <div class="input-group">
-          <span class="input-group-addon" ><p style="color:red;">Chọn phương thức thanh toán</p></span>
-              <select name="comp_select" class="selectpicker form-control">
-                <option value="thirdService">Dịch vụ bên thứ ba</option>
-                <option value="wallet">Ví điện tử</option>
-  
-              </select>
-      </div>
-      <button type="submit" class="btn btn-default">Go</button>
-    </div>
-  </form>
-<!-- end test____________________________________________________________________________ -->
+
 {% endblock %}
 
