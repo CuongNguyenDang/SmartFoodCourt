@@ -7,7 +7,8 @@ from flask import render_template, request, redirect, url_for
 from FoodCourt import app
 import os
 import webbrowser
-import Controller
+from Controller import *
+from Model import Bill
 from momo import getUrl
 
 #Route
@@ -48,46 +49,33 @@ def order():
 
 @app.route("/pay" , methods=['GET', 'POST'])
 def pay():
-    select = str(request.form.get('comp_select'))
-    
-    # return render_template(
-    #     "pay.html"
-    # )
-    if select == "thirdService":
-        url = getUrl(100000)
-        return redirect(url)
-
-    
-    return(str(select)) # just to see what select is
-
-
-
-# @app.route('/select', methods = ['POST'])
-# def pay():
-#     webbrowser.open_new('http://127.0.0.1:5000/table')
-#     v = PayView()
-#     controller = Controller.Payment(None,None,None,v)
-#     controller.startPay()
-#     return render_template('index.html')
+    bill = Bill()
+    view = PayView()
+    c = PayByMachine(bill,None,None,view)
+    c.startPay()
+    c.pay(bill)
+    c.saveLog()
+    c.finishPay()
+    return render_template("index.html")
 
 #View
 #___________________________________________________________________________________
 
 class MainUI:
-    pass #Do nothing
+    def __init__(self):
+        self.payView = PayView()
+        self.orderView = OrderView()
 
 class PayView:
     def showPaymentUI(self):
-        return render_template('pay.html')
+        return redirect(url_for('home'))
     def showResult(self):
         pass
     def showThirdServiceUI(self):
         pass
-    def showQRCode(self,qr):
-        return render_template(
-            'pay.html',
-            qrCode = qr
-        )
+    def showQRCode(self,qrUrl):
+        webbrowser.open_new_tab(qrUrl)
 
-class OderView:
-    pass #Do nothing
+class OrderView:
+    def showOrderUI(self):
+        return render_template("index.html")

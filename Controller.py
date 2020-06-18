@@ -1,6 +1,6 @@
 from abc import abstractmethod 
 from flask import render_template
-
+from momo import getUrl
 #main function
 #____________________________________________________________________________________
 
@@ -14,7 +14,6 @@ class Payment:
         self.payView = payView
     def startPay(self):
         self.payView.showPaymentUI()
-        return 0
     
     #abstract method
     def pay(self,bill):
@@ -29,7 +28,8 @@ class Payment:
 class PayByMachine(Payment):
     # overriding abstract method
     def pay(self,bill):
-        return 0
+        url = getUrl(bill.cost)
+        self.payView.showQRCode(url)
 
 class PayByMobile(Payment):
     # overriding abstract method

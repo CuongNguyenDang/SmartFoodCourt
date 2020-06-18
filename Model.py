@@ -1,3 +1,5 @@
+import uuid
+
 
 class Customer:
     def __init__(self,mode):
@@ -20,3 +22,10 @@ class Account(Customer):
         return 0
     def recharge(self, money):
         return 0
+
+class Bill:
+    def __init__(self,foods = []):
+        self.id = str(uuid.uuid1())
+        self.foods = foods
+        self.cost = 2000
+        
