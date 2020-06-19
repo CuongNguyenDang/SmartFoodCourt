@@ -8,6 +8,7 @@ import os
 #import Process
 import webbrowser
 import Controller
+from Controller import stalls
 
 
 #Route
@@ -45,15 +46,41 @@ def account():
 #         year=datetime.now().year,
 #         message='Your application description page.'
 #     )
+
+#kduy fixing
 @app.route('/order')
 def order():
     """Renders the order page."""
+    i=0
+    tmp = stalls.head
+    lst=[]
+    while i<2:
+        lst.append(tmp)
+        tmp=tmp.next
+        i+=1
     return render_template(
         'order.html',
-        # title='Menu Page',
+        stall = lst,
         year=datetime.now().year,
     )
-
+@app.route('/order/Pizza Hut')
+def pizzahut():
+    """Renders the order page."""
+    food = stalls.findbyName('Pizza Hut')[0].foodlist
+    return render_template(
+        'pizzahut.html',
+        food = food,
+        year=datetime.now().year,
+    )
+@app.route('/order/KFC')
+def kfc():
+    """Renders the order page."""
+    food = stalls.findbyName('KFC')[0].foodlist
+    return render_template(
+        'kfc.html',
+        food = food,
+        year=datetime.now().year,
+    )
 
 
 @app.route("/test" , methods=['GET', 'POST'])
@@ -116,34 +143,5 @@ class PayView:
             qrCode = qr
         )
 
-# @app.route('/get-text', methods=['POST'])
-# def foo():
-#     # name = request.form['test']
-#     toan = float(request.form['toan'])
-#     van = float(request.form['van'])
-#     li = float(request.form['li'])
-#     hoa = float(request.form['hoa'])
-#     sinh = float(request.form['sinh'])
-#     su = float(request.form['su'])
-#     dia = float(request.form['dia'])
-#     gdcd = float(request.form['gdcd'])
-#     anh = float(request.form['anh'])
-
-#     #Process.Prediction(toan, van, li, hoa, sinh, su, dia, gdcd, anh)
-
-#     return render_template(
-#         'result.html',
-#         title='Home Page',
-#         year=datetime.now().year,
-#         toan = float(request.form['toan']),
-#         van = float(request.form['van']),
-#         li = float(request.form['li']),
-#         hoa = float(request.form['hoa']),
-#         sinh = float(request.form['sinh']),
-#         su = float(request.form['su']),
-#         dia = float(request.form['dia']),
-#         gdcd = float(request.form['gdcd']),
-#         anh = float(request.form['anh'])
-#     )
-class OderView:
+class OrderView:
     pass #Do nothing

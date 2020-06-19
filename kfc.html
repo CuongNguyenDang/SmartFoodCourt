@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đặt món</title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+
+
+<div class="grid_9"><a class="gall_item; background-color: white"><img src="{{ url_for('static', filename='images/kfc/kfc.png') }}" height="300" width="500" align="left" vspace="100"></a>
+  <div class="grid_2">
+    <h2 style="line-height: 20px; margin-bottom: 30px">KFC</h2>
+    <div style="margin-bottom: 20px">50,000-100,000</div>
+  </div>
+</div>
+
+  <div class="grid_6"><a class="gall_item; background-color: white"><img src="{{ url_for('static', filename='images/kfc/ga.jpeg') }}" height="150" width="200" align="left">
+    <a href="#" class="link1">+</a>
+    <div class="grid_2">
+      <h2 style="font-size: 25px; line-height: 20px; margin-bottom: 10px">{{food[0]}}</h2>
+      <div>100,000đ</div>
+    </div>
+  </a>
+  </div>
+
+  <div class="grid_6"><a class="gall_item; background-color: white"><img src="{{ url_for('static', filename='images/kfc/hamburger.jpg') }}" height="150" width="200" align="left">
+    <a href="#" class="link1">+</a>
+    <div class="grid_2">
+      <h2 style="font-size: 25px; line-height: 20px; margin-bottom: 10px">{{food[1]}}</h2>
+      <div>50,000đ</div>
+    </div>
+  </a>
+  </div>
+
+  <div class="grid_6"><a class="gall_item; background-color: white"><img src="{{ url_for('static', filename='images/kfc/com.jpg') }}" height="150" width="200" align="left">
+    <a href="#" class="link1">+</a>
+    <div class="grid_2">
+      <h2 style="font-size: 25px; line-height: 20px; margin-bottom: 10px">{{food[2]}}</h2>
+      <div>50,000đ</div>
+    </div>
+  </a>
+  </div>
+
+{% endblock %}
