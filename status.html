@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đơn hàng</title>
+{% endblock %}
+{% block content %}
+
+<body>
+  
+    <div style="background-color: burlywood">
+    <ul style="font-size: 30 px; line-height: 1.6 ;">
+      <form method="POST">
+        <button onclick="Rerender(0)" > Chua nhan </button>
+        <li><button onclick="Rerender(1)" > Dang lam </button></li>
+        <li><button onclick="Rerender(2)" > Da xong </button></li>
+        <li><button onclick="Rerender(3)" style="line-height: 3"> Xoa </button></li>
+      </form>
+    </ul>
+    
+    </div>
+    <script>
+      function Rerender(i) {
+        switch (i) 
+        {
+          case 0:  
+            alert("Thay doi trang thai thanh cong")
+            state="Chua nhan";
+            window.history.go(-1);
+            break;
+          case 1:
+            state="Dang lam";
+            window.history.go(-2);
+            break;
+          case 2:
+            state="Da xong";
+            window.history.go(-1);
+            break;
+        }
+      }
+  </script>
+</body>
+{% endblock %}
