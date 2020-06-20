@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Báo cáo</title>
+{% endblock %}
+{% block content %}
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<body>
+    <div class="container">
+        <div class="container-fluid mb-5 mt-3">
+            <form action="" method="post">
+            <div class="row mb-5">
+                <div class="col mx-2">
+                  <input type="text" class="form-control form-control-lg" placeholder="Nhập ID Stall..." name="idstall" value="{{request.form.idstall}}">
+                </div>
+                <select class="col colform-control form-control-lg mx-2" name="day" >
+                    <option>Chọn ngày</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                <select class="col colorm-control form-control-lg mx-2" name="month">
+                    <option>Chọn tháng</option>
+                    <option value="1">Tháng 1</option>
+                    <option value="2">Tháng 2</option>
+                    <option value="3">Tháng 3</option>
+                    <option value="4">Tháng 4</option>
+                    <option value="5">Tháng 5</option>
+                    <option value="6">Tháng 6</option>
+                    <option value="7">Tháng 7</option>
+                    <option value="8">Tháng 8</option>
+                    <option value="9">Tháng 9</option>
+                    <option value="10">Tháng 10</option>
+                    <option value="11">Tháng 11</option>
+                    <option value="12">Tháng 12</option>
+
+                </select>
+                <div class="col">
+                    <button type="submit" class="btn btn-block   btn-outline-info mx-2" style="height: 100%; margin-top: 0 !important;" value="GetData" >Nhận báo cáo</div>
+                </div>
+           
+            {% if error %}
+                <p class="error"><strong>Error:</strong> {{ error }}
+            {% else %}
+            
+            <div class="title d-flex justify-content-center">
+                <h2 class="align-middle mb-5">Báo cáo</h2>
+            </div>
+            <div class="table-container">
+                <div class="container-fluid" style="max-width: 70%;">
+                    <table class="table">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col" >ID Stall</th>
+                            <th scope="col" >Date</th>
+                            <th scope="col" >ID VO</th>
+                            <th scope="col">iData</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <tr>
+                            <th scope="row" >{{stall.idstall}}</th>   
+                            <td >{{stall.date}}</td>
+                            <td >{{stall.idvo}}</td>
+                            <td ><p >
+                                {{stall.iData}}
+                            </P></td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            
+            <div class="footer-btn">
+                <div class="container-fluid " style="margin-top: 80px;" >
+                 <div class="row flex-row-reverse">
+                     <button type="button" class=" col-1 btn  btn-outline-primary mr-5" style>Nhận mail báo cáo</button>
+                     <button type="button" class=" col-1 btn  btn-outline-success mr-3">Nhắc nhở Vendor Owners</button>
+                 </div>
+                </div>
+            </div>
+            
+            {% endif %}
+        </div>
+    </form>
+            
+    </div>
+    
+    
+    <script src="./assets/jquery-3.5.1.min.js"></script>
+    <script src="./assets/bootstrap-4.5.0-dist/js/bootstrap.js"></script>
+
+</body>
+{% endblock %}

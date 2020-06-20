@@ -29,34 +29,25 @@ class Bill:
         self.foods = foods
         self.cost = 2000
         
-#stall
-
-class Food:
-    def __init__(self, name, ID, stallID, img, cost, status):
-        self.name = name
-        self.foodID = ID
-        self.stallID = stallID
-        self.img = img
-        self.cost = cost
-        self.status = status
-
-class Stall:
-    def __init__(self, name, ID, img, foodlist, status):
-        self.name = name
-        self.stallID = ID
-        self.img = img
-        self.foodlist = foodlist
-        self.status = status
+#Nam's Class_____________________
+class iData:
+    def __init__(self,payment,cash,mobilemoney,numofCus,pager,bestseller):
+        self.payment = payment
+        self.cash = cash
+        self.mobilemoney = mobilemoney
+        self.numofCus = numofCus
+        self.pager = pager
+        self.bestseller = bestseller
+class Stallinfo:
+    def __init__(self,idstall,day,month,date,idvo,iData):
+        self.idstall = idstall
+        self.day = day
+        self.month = month
+        self.date = date
+        self.idvo = idvo
+        self.iData = iData
         self.next = None
-        self.min = foodlist[0].cost
-        self.max = foodlist[0].cost
-        for f in foodlist:
-            if f.cost > self.max:
-                self.max = f.cost
-            if f.cost < self.min:
-                self.min = f.cost
-
-class StallList:
+class StallinfoList:
     def __init__(self, stall):
         self.head = stall
         self.tail = stall
@@ -65,45 +56,39 @@ class StallList:
         self.tail.next = stall
         self.tail = stall
     
-    def findbyID(self, ID):
+    def findbyidstall(self, idstall):
         tmp = self.head
         while tmp is not None:
-            if tmp.stallID == ID:
+            if tmp.idstall == idstall:
+                return tmp
+            tmp = tmp.next
+        return None
+    def findbyday(self, day):
+        tmp = self.head
+        while tmp is not None:
+            if tmp.day == day:
+                return tmp
+            tmp = tmp.next
+        return None
+    def findbymonth(self, month):
+        tmp = self.head
+        while tmp is not None:
+            if tmp.month == month:
                 return tmp
             tmp = tmp.next
         return None
     
-    def findbyName(self, string):
-        result = []
-        tmp = self.head
-        while tmp is not None:
-            if string in tmp.name:
-                result.append(tmp)
-            tmp = tmp.next
-        return result
-    
-    def remove(self, ID):
-        tmp = self.head
-        if tmp.stallID == ID:
-            self.head = tmp.next
-            return
-        while tmp is not None:
-            if tmp.next.stallID == ID:
-                tmp.next = tmp.next.next
-                return
-
     def clear(self):
         self.__init__(None)
 
-pizza = Food('Pizza',1,1,'pizzahut/pizza.jpg',200,1)
-spaghetti = Food('Mỳ Ý',1,1,'pizzahut/spaghetti.jpg',80,1)
-salad = Food('Salad trộn',1,1,'pizzahut/salad.jpg',50,1)
-pizzahut = Stall('Pizza Hut',1,'pizzahut/pizzahut.jpg',[pizza,spaghetti,salad],1)
 
-chicken = Food('Gà rán',1,1,'kfc/ga.jpg',100,1)
-hamburger = Food('Hamburger',1,1,'kfc/hamburger.jpg',50,1)
-rice = Food('Cơm',1,1,'kfc/com.jpg',40,1)
-kfc = Stall('KFC',2,'kfc/kfc.jpg',[chicken,hamburger,rice],1)
-
-stalls = StallList(pizzahut)
-stalls.push(kfc)
+data0302 = iData(350,200,150,26,5,"Hamburger")
+data2408 = iData(400,200,200,30,7,"Chips")
+data1903 = iData(1000,150,850,75,15,"Pho Bo")
+stalldata1 = Stallinfo(1302,20,5,"20:5:2020","Nam-123", data0302)
+stalldata2 = Stallinfo(2408,1,6,"1:6:2020","T-456", data2408)
+stalldata3 = Stallinfo(1903,30,4,"30:4:2020","DCDTA-5", data1903)
+stalldata = StallinfoList(stalldata1)
+stalldata.push(stalldata2)
+stalldata.push(stalldata3)
+#__________________end Nam's Class
