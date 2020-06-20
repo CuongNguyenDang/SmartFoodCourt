@@ -91,9 +91,9 @@
                             <th scope="row" >{{stall.idstall}}</th>   
                             <td >{{stall.date}}</td>
                             <td >{{stall.idvo}}</td>
-                            <td ><p >
-                                {{stall.iData}}
-                            </P></td>
+                            <td >
+                                {{iData.payment}}-{{iData.cash}}-{{iData.mobilemoney}}-{{iData.numofCus}}-{{iData.pager}}-{{iData.bestseller}}
+                            </td>
                           </tr>
                           
                         </tbody>
@@ -104,8 +104,8 @@
             <div class="footer-btn">
                 <div class="container-fluid " style="margin-top: 80px;" >
                  <div class="row flex-row-reverse">
-                     <button type="button" class=" col-1 btn  btn-outline-primary mr-5" style>Nhận mail báo cáo</button>
-                     <button type="button" class=" col-1 btn  btn-outline-success mr-3">Nhắc nhở Vendor Owners</button>
+                     <a type="button" class=" col-1 btn  btn-outline-primary mr-5" href="/mail">Nhận mail báo cáo</a>
+                     <a type="button" class=" col-1 btn  btn-outline-success mr-3" href="/update">Cập nhật báo cáo</a>
                  </div>
                 </div>
             </div>

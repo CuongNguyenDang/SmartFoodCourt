@@ -3,7 +3,7 @@ import uuid
 import hmac
 import hashlib
 
-import requests
+#import requests
 
 #parameters send to MoMo get get payUrl
 def getUrl(_amount):
@@ -62,4 +62,3 @@ def getUrl(_amount):
 	# print("--------------------JSON response----------------\n")
 	# print(response)
 	return response['payUrl']
-
