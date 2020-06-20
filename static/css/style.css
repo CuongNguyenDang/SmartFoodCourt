@@ -795,6 +795,50 @@ header h1 a img {
     background-position: right 0;
 }
 
+/*kduy*/
+.container-4{
+    overflow: hidden;
+    width: 400px;
+    vertical-align: middle;
+    white-space: nowrap;
+    border-radius: 10px;
+    border: 1px solid black;
+    float: right;
+}
+.container-4 input#search{
+    width: 400px;
+    height: 50px;
+    background: #ffffff;
+    border: none;
+    font-size: 10pt;
+    float: left;
+    color: #5f5f5f;
+    padding-left: 15px;
+    border-radius: 5px;
+}
+
+.container-4 button.icon{
+    border: none;
+    background: #535151;
+    height: 50px;
+    width: 50px;
+    color: white;
+    opacity: 0;
+    font-size: 10pt;
+    transition: all .55s ease;
+}
+
+.container-4:hover button.icon, .container-4:active button.icon, .container-4:focus button.icon{
+    outline: none;
+    opacity: 1;
+    margin-left: -50px;
+}
+ 
+.container-4:hover button.icon:hover{
+    color: #535151;
+    background: white;
+}
+
 /*==================================RESPONSIVE LAYOUTS===============================================*/
 
 @media only screen and (max-width: 1199px) {
@@ -887,6 +931,14 @@ header h1 a img {
     .address1 dd span  {
         min-width: 0;
     }
+
+    .container-4{
+        width: 300px;
+    }
+
+    .container-4 input#search{
+        width: 300px;
+
 }
 
 @media only screen and (max-width: 767px) {
@@ -968,6 +1020,7 @@ header h1 a img {
         float: none;
         padding-bottom: 20px;
     }
+
 }
 
 
@@ -988,4 +1041,6 @@ header h1 a img {
     .blog table td:first-child {
         width: auto;
     }
+
 }
+
