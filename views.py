@@ -5,10 +5,13 @@ from datetime import datetime
 from flask import render_template, request
 from FoodCourt import app
 import os
+import glob
 #import Process
 import webbrowser
 import Controller
-from Controller import stalls
+#import order
+from Model import stalls
+from shutil import copyfile
 
 
 #Route
@@ -49,7 +52,7 @@ def account():
 
 #kduy fixing
 @app.route('/order')
-def order():
+def orderMainIU():
     """Renders the order page."""
     i=0
     tmp = stalls.head
@@ -63,25 +66,23 @@ def order():
         stall = lst,
         year=datetime.now().year,
     )
-@app.route('/order/Pizza Hut')
-def pizzahut():
+@app.route('/order<name>')
+def stallIU(name):
     """Renders the order page."""
-    food = stalls.findbyName('Pizza Hut')[0].foodlist
+    stall = stalls.findbyName(name)[0]
+    files = glob.glob('/images/stall/*')
+    for f in files:
+        os.remove(f)
+    copyfile('static/images/%s' %stall.img,'static/images/stall/stall.jpg')
+    food = stall.foodlist
+    for f in food:
+        copyfile('static/images/%s' %f.img,'static/images/stall/food%d.jpg' %food.index(f))
     return render_template(
-        'pizzahut.html',
+        'stall.html',
+        stall = stall,
         food = food,
         year=datetime.now().year,
     )
-@app.route('/order/KFC')
-def kfc():
-    """Renders the order page."""
-    food = stalls.findbyName('KFC')[0].foodlist
-    return render_template(
-        'kfc.html',
-        food = food,
-        year=datetime.now().year,
-    )
-
 
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
@@ -96,6 +97,7 @@ def pay():
     controller = Controller.Payment(None,None,None,v)
     controller.startPay()
     return render_template('index.html')
+
 #Duy's part_________________________________________________________________________
 @app.route('/stallorder')
 def stallorder():
