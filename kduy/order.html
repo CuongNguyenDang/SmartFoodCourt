@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đặt món</title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+
+<!--chỉnh quầy hàng-->
+<div class="grid_12" style="display:inline-block">
+  <form method="POST">
+    <div class="container-4" style="margin-top: 20px; margin-bottom: 30px">
+
+      <input type="search" id="search" name="search" placeholder="Tìm món ăn..." value="{{request.form.search}}"/>
+      <button class="icon" value="Search"><i class="fa fa-search"></i></button>
+    
+    </div>
+  </form>
+
+  <div class="grid_4" style="display:inline-block">
+    <h2 style="margin-bottom: 30px">Best of the week</h2>
+  </div>
+</div>
+
+<div class="gallery" style="display:inline-block">
+{%for s in stall%}
+  <div class="grid_3" style="display:inline-block; border:1px solid lightgray; margin-bottom: 30px"><a href="order{{s.name}}" class="gall_item; background-color: white"><img src=static/images/{{s.img}} height="200" width="100%">
+    <h2 style="font-size: 25px; line-height: 10px; margin-left: 10px; margin-bottom: 30px">{{s.name}}</h2></a>
+  </div>
+{%endfor%}
+</div>
+
+
+{% endblock %}
