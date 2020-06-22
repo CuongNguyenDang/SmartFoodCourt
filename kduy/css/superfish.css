@@ -62,8 +62,8 @@ nav {
 }
  
 .sf-menu>li>ul>li>a.sf-with-ul:after {
-	content: '';
-    font-family: 'FontAwesome';
+	content: '';
+    font-family: 'Yanone Kaffeesatz', sans-serif;
 	position: absolute;
 	width: 5px;
 	font-size: 13px;
@@ -162,7 +162,7 @@ nav {
 
 @media only screen and (max-width: 767px) {
 	.navigation {
-		float: none !important;
+		float: left !important;
 		padding: 10px 0 20px !important;
 		clear: both;
 		margin: 0;
@@ -171,38 +171,40 @@ nav {
 
 
 
-  .navigation  nav{
-  	border: none !important;
-		float:none !important;
-		font:12px/15px Arial, Helvetica, sans-serif;
+	.navigation  nav{
+		width: 150px;
+  		border: none !important;
+		float: none !important;
+		font:15px 'Yanone Kaffeesatz', sans-serif;
 		text-transform:uppercase;
 		color:#927c67;
 		margin: 0 auto;
 		padding-left: 0 !important;
-		
-	
+		padding-right: 20px !important;
 	}
 
 
-	
-
-  header nav ul {
-  	border: none;
-  }
+	header nav ul {
+		border: none;
+	}
 
 	.sf-menu{display:none !important; float: none;}
 
 	.select-menu {
-		font:12px/15px Arial, Helvetica, sans-serif;
-		color:#202020;
+		
+		font:20px 'Yanone Kaffeesatz', sans-serif;
+		font-weight: bold;
+		
+    	background-color: #f1f0f1;
+    	color: #535151;
 		width:100%;
 		margin: 0 auto;
 		float: none;
 	    outline: none;
 	    display: block !important;
-		border:2px solid #333;
+		border: none;
 		border-radius: 0 !important;
+		padding: 10px 0 10px;
 	}
-	
 	
 }
