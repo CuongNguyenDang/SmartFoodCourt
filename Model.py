@@ -92,33 +92,43 @@ stalldata = StallinfoList(stalldata1)
 stalldata.push(stalldata2)
 stalldata.push(stalldata3)
 #__________________end Nam's Class
+
+
+
 #stall
 
 class Food:
-    def __init__(self, name, ID, stallID, img, cost, status):
+    def __init__(self, name, ID, img, cost, status):
         self.name = name
         self.foodID = ID
-        self.stallID = stallID
+        self.stallID = None
         self.img = img
         self.cost = cost
         self.status = status
 
 class Stall:
-    def __init__(self, name, ID, img, foodlist, status):
+    def __init__(self, name, ID, img, status):
         self.name = name
         self.stallID = ID
         self.img = img
-        self.foodlist = foodlist
+        self.foodlist = []
         self.status = status
         self.next = None
-        self.min = foodlist[0].cost
-        self.max = foodlist[0].cost
-        for f in foodlist:
-            if f.cost > self.max:
-                self.max = f.cost
-            if f.cost < self.min:
-                self.min = f.cost
+        self.min = 0
+        self.max = 0
 
+    def addfood(self, food):
+        if not self.foodlist:
+            self.min = food.cost
+            self.max = food.cost
+        else:
+            for f in self.foodlist:
+                if f.cost > self.max:
+                    self.max = f.cost
+                if f.cost < self.min:
+                    self.min = f.cost
+        self.foodlist.append(food)
+        
 class StallList:
     def __init__(self, stall):
         self.head = stall
@@ -140,11 +150,22 @@ class StallList:
         result = []
         tmp = self.head
         while tmp is not None:
-            if string in tmp.name:
+            if string.lower() in tmp.name.lower():
                 result.append(tmp)
             tmp = tmp.next
         return result
     
+    def findfood(self, string):
+        result = []
+        tmp = self.head
+        while tmp is not None:
+            for f in tmp.foodlist:
+                if string.lower() in f.name.lower():
+                    dic = {"stall": tmp.name, "food": f}
+                    result.append(dic)
+            tmp = tmp.next
+        return result
+
     def remove(self, ID):
         tmp = self.head
         if tmp.stallID == ID:
@@ -158,15 +179,21 @@ class StallList:
     def clear(self):
         self.__init__(None)
 
-pizza = Food('Pizza',1,1,'pizzahut/pizza.jpg',200,1)
-spaghetti = Food('Mỳ Ý',1,1,'pizzahut/spaghetti.jpg',80,1)
-salad = Food('Salad trộn',1,1,'pizzahut/salad.jpg',50,1)
-pizzahut = Stall('Pizza Hut',1,'pizzahut/pizzahut.jpg',[pizza,spaghetti,salad],1)
+pizza = Food('Pizza',1,'pizzahut/pizza.jpg',200,1)
+spaghetti = Food('Mỳ Ý',1,'pizzahut/spaghetti.jpg',80,1)
+salad = Food('Salad trộn',1,'pizzahut/salad.jpg',50,1)
+pizzahut = Stall('Pizza Hut',1,'pizzahut/pizzahut.jpg',1)
+pizzahut.addfood(pizza)
+pizzahut.addfood(spaghetti)
+pizzahut.addfood(salad)
 
-chicken = Food('Gà rán',1,1,'kfc/ga.jpg',100,1)
-hamburger = Food('Hamburger',1,1,'kfc/hamburger.jpg',50,1)
-rice = Food('Cơm',1,1,'kfc/com.jpg',40,1)
-kfc = Stall('KFC',2,'kfc/kfc.jpg',[chicken,hamburger,rice],1)
+chicken = Food('Gà rán',1,'kfc/ga.jpg',100,1)
+hamburger = Food('Hamburger',1,'kfc/hamburger.jpg',50,1)
+rice = Food('Cơm',1,'kfc/com.jpg',40,1)
+kfc = Stall('KFC',2,'kfc/kfc.jpg',1)
+kfc.addfood(chicken)
+kfc.addfood(hamburger)
+kfc.addfood(rice)
 
-stalls = StallList(pizzahut)
-stalls.push(kfc)
+stalllist = StallList(pizzahut)
+stalllist.push(kfc)

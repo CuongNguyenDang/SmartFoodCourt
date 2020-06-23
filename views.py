@@ -2,16 +2,15 @@
 Routes and views for the flask application.
 """
 from datetime import datetime
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from FoodCourt import app
 import os
+import glob
 #import Process
 import webbrowser
-import Controller
-#import Data report
-from Model import stalldata, iData
+from Controller import *
 #import order
-from Model import stalls
+from Model import *
 from shutil import copyfile
 
 
@@ -34,12 +33,12 @@ def menu():
 @app.route('/account')
 def account():
     """Renders the account page."""
-    # return render_template(
+    return render_template(
     #     'menu.html',
-    #     'account.html',
-    #     # title='Menu Page',
-    #     year=datetime.now().year,
-    # )
+         'account.html',
+         # title='Menu Page',
+         year=datetime.now().year,
+     )
 
 # @app.route('/about')
 # def about():
@@ -50,30 +49,71 @@ def account():
 #         year=datetime.now().year,
 #         message='Your application description page.'
 #     )
-@app.route('/order')
-def order():
+
+#kduy fixing
+@app.route('/order',methods=["GET","POST"])
+def orderMainIU():
     """Renders the order page."""
+    if request.method == "POST":
+        search = request.form['search']
+        return redirect('/ordersearch=%s' %search)
+
+    i=0
+    tmp = stalllist.head
+    lst=[]
+    while i<2:
+        lst.append(tmp)
+        tmp=tmp.next
+        i+=1
     return render_template(
         'order.html',
-        # title='Menu Page',
-        year=datetime.now().year,
+        stall = lst,
+    )
+
+@app.route('/ordersearch=<name>',methods=["GET","POST"])
+def orderSearchIU(name):
+    if request.method == "POST":
+        search = request.form['search']
+        return redirect('/ordersearch=%s' %search)
+
+    fstall = stalllist.findbyName(name)
+    ffood = stalllist.findfood(name)
+    return render_template(
+        'ordersearch.html',
+        stall = fstall,
+        food = ffood
+    )
+
+@app.route('/order<name>')
+def stallIU(name):
+    stall = stalllist.findbyName(name)[0]
+    food = stall.foodlist
+    return render_template(
+        'stall.html',
+        stall = stall,
+        food = food,
     )
 
 
-
-@app.route("/test" , methods=['GET', 'POST'])
-def test():
-    select = request.form.get('comp_select')
-    return(str(select)) # just to see what select is
-
-
-@app.route('/select', methods = ['POST'])
+@app.route("/pay", methods=['GET', 'POST'])
 def pay():
-    # webbrowser.open_new('http://127.0.0.1:5000/table')
-    v = PayView()
-    controller = Controller.Payment(None,None,None,v)
-    controller.startPay()
-    return render_template('index.html')
+    bill = Bill()
+    view = PayView()
+    select = request.form.get('comp_select')
+
+    if select == 'thirdService':
+        c = PayByMachine(None, None, view)
+    elif select == 'wallet':
+        c = PayByWallet(None, None, view)
+
+    c.startPay()
+    c.pay(bill)
+    c.saveLog()
+    c.finishPay()
+
+    return render_template("index.html")
+
+
 #Nam's part_______________________________________________________
 @app.route('/report', methods=['GET', 'POST'])
 def report():
@@ -107,42 +147,8 @@ def mail():
 def update():
     
     return render_template('update.html',year=datetime.now().year,)   
-#__________________________________________
-#kduy fixing
-@app.route('/order')
-def orderMainIU():
-    """Renders the order page."""
-    i=0
-    tmp = stalls.head
-    lst=[]
-    while i<2:
-        lst.append(tmp)
-        tmp=tmp.next
-        i+=1
-    return render_template(
-        'order.html',
-        stall = lst,
-        year=datetime.now().year,
-    )
-@app.route('/order<name>')
-def stallIU(name):
-    """Renders the order page."""
-    stall = stalls.findbyName(name)[0]
-    files = glob.glob('/images/stall/*')
-    for f in files:
-        os.remove(f)
-    copyfile('static/images/%s' %stall.img,'static/images/stall/stall.jpg')
-    food = stall.foodlist
-    for f in food:
-        copyfile('static/images/%s' %f.img,'static/images/stall/food%d.jpg' %food.index(f))
-    return render_template(
-        'stall.html',
-        stall = stall,
-        food = food,
-        year=datetime.now().year,
-    )
-#_______________________________________________________________
-    
+
+
 #Duy's part_________________________________________________________________________
 @app.route('/stallorder')
 def stallorder():
@@ -175,49 +181,25 @@ def detailorder():
 #___________________________________________________________________________________
 
 class MainUI:
-    pass #Do nothing
+    def __init__(self):
+        self.payView = PayView()
+        self.orderView = OrderView()
+
 
 class PayView:
     def showPaymentUI(self):
-        return render_template('pay.html')
+        return redirect(url_for('home'))
+
     def showResult(self):
         pass
+
     def showThirdServiceUI(self):
         pass
-    def showQRCode(self,qr):
-        return render_template(
-            'pay.html',
-            qrCode = qr
-        )
 
-# @app.route('/get-text', methods=['POST'])
-# def foo():
-#     # name = request.form['test']
-#     toan = float(request.form['toan'])
-#     van = float(request.form['van'])
-#     li = float(request.form['li'])
-#     hoa = float(request.form['hoa'])
-#     sinh = float(request.form['sinh'])
-#     su = float(request.form['su'])
-#     dia = float(request.form['dia'])
-#     gdcd = float(request.form['gdcd'])
-#     anh = float(request.form['anh'])
+    def showQRCode(self, qrUrl):
+        webbrowser.open(qrUrl)
 
-#     #Process.Prediction(toan, van, li, hoa, sinh, su, dia, gdcd, anh)
 
-#     return render_template(
-#         'result.html',
-#         title='Home Page',
-#         year=datetime.now().year,
-#         toan = float(request.form['toan']),
-#         van = float(request.form['van']),
-#         li = float(request.form['li']),
-#         hoa = float(request.form['hoa']),
-#         sinh = float(request.form['sinh']),
-#         su = float(request.form['su']),
-#         dia = float(request.form['dia']),
-#         gdcd = float(request.form['gdcd']),
-#         anh = float(request.form['anh'])
-#     )
-class OderView:
-    pass #Do nothing
+
+class OrderView:
+    pass  # Do nothing

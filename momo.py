@@ -3,7 +3,7 @@ import uuid
 import hmac
 import hashlib
 
-#import requests
+import requests
 
 #parameters send to MoMo get get payUrl
 def getUrl(_amount):
