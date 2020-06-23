@@ -10,7 +10,7 @@ import glob
 import webbrowser
 import Controller
 #import order
-from Model import stalllist
+from Model import stalllist, cart
 from shutil import copyfile
 
 
@@ -56,43 +56,89 @@ def orderMainIU():
     """Renders the order page."""
     if request.method == "POST":
         search = request.form['search']
-        return redirect('/ordersearch=%s' %search)
+        return redirect('/order?=%s' %search)
 
-    i=0
-    tmp = stalllist.head
-    lst=[]
-    while i<2:
-        lst.append(tmp)
-        tmp=tmp.next
-        i+=1
-    return render_template(
-        'order.html',
-        stall = lst,
-    )
+    search = request.args.get('')
+    if search is None:
+        i=0
+        tmp = stalllist.head
+        lst=[]
+        while i<2:
+            lst.append(tmp)
+            tmp=tmp.next
+            i+=1
+        return render_template(
+            'order.html',
+            stall = lst,
+        )
+    else:
+        fstall = stalllist.findbyName(search)
+        ffood = stalllist.findfood(search)
+        return render_template(
+            'ordersearch.html',
+            stall = fstall,
+            food = ffood
+        )
 
-@app.route('/ordersearch=<name>',methods=["GET","POST"])
-def orderSearchIU(name):
-    if request.method == "POST":
-        search = request.form['search']
-        return redirect('/ordersearch=%s' %search)
-
-    fstall = stalllist.findbyName(name)
-    ffood = stalllist.findfood(name)
-    return render_template(
-        'ordersearch.html',
-        stall = fstall,
-        food = ffood
-    )
-
-@app.route('/order<name>')
+@app.route('/order<name>', methods=["GET","POST"])
 def stallIU(name):
     stall = stalllist.findbyName(name)[0]
     food = stall.foodlist
+    if request.method == "POST":
+        search = request.form['search']
+        food2 = []
+        for f in food:
+            if search.lower() in f.name.lower():
+                food2.append(f)
+        return render_template(
+            'stall.html',
+            stall = stall,
+            food = food2,
+        )
     return render_template(
         'stall.html',
         stall = stall,
-        food = food,
+        food = food
     )
+#fix cart
+@app.route('/add', methods=["GET","POST"])
+def addtocart():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    stall = stalllist.findbyID(int(ID[0]))
+    return redirect('/order%s' %stall.name)
+
+@app.route('/add2', methods=["GET","POST"])
+def addtocart2():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    return redirect('/cart')
+
+@app.route('/less', methods=["GET","POST"])
+def less():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.less(food)
+    return redirect('/cart')
+
+@app.route('/remove', methods=["GET","POST"])
+def remove():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.remove(food)
+    return redirect('/cart')
+
+@app.route("/cart")
+def cartIU():
+    return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count
+    )
+
+#end fix cart
 
 @app.route("/test" , methods=['GET', 'POST'])
 def test():

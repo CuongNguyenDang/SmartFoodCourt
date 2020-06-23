@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đặt món</title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+
+<!--style="display:inline-block;border:1px solid lightgray"-->
+<div class="grid_12" style="display:inline-block; margin-left: 0px">
+  <h2>Kiểm tra giỏ hàng</h2>
+</div>
+{%if food%}
+<div class="grid_10" style="display:inline-block; border: 1px solid lightgray; border-top: 0;">
+{%for f in food%}
+  <div class="grid_10" style="display:inline-block; margin: 0; border-top: 1px solid lightgrey"><img src=static/images/{{f.img}} style="margin-right: 20px;" height="120" width="150" align="left">
+    <div class="grid_2" style="display:inline-block; width: 100px; margin-left: 0px">
+      <h2 style="font-size: 20px; margin-bottom: -5px; margin-top: -20px">{{f.name}}</h2>
+      <div>{{f.cost}},000đ</div>
+    </div>
+
+    <div style="display:inline-block; width: 100px; margin: 0px; padding-top: 45px; float: right">
+      <form action="/remove" methods="POST" align='center'>
+        <button style="background-color: white; margin: 0; font-size: 15px;"  name="ID" value={{f.stallID}}-{{f.foodID}}>Xóa</button>
+      </form>
+    </div>
+    
+    <div style="display:inline-block; width: 100px; margin: 0px; margin-top: 10px; float: right">
+      <div align='center'>Số tiền</div>
+      <br>
+      <div style="line-height: 10px; color: #000;" align='center'>{{f.cost*count[food.index(f)]}},000</div>
+    </div>
+
+    <div style="display:inline-block; width: 100px; margin: 0px; margin-top: 10px; float: right">
+      <div align='center'>Số lượng</div>
+      <div style="display:inline-block; width: 100px; border: 1px solid lightgray; margin: 0px; margin-top: 10px; float: right">
+        <form action="/add2" methods="POST">
+          <button class="link1" style="font-size: 20px; line-height: 10px; width: 30px; height: 30px; margin: 0"  name="ID" value={{f.stallID}}-{{f.foodID}}>+</button>
+        </form>
+        <form action="/less" methods="POST">
+          <button class="link1" style="font-size: 20px; line-height: 0px; width: 30px; height: 30px; margin: 0; float: left;"  name="ID" value={{f.stallID}}-{{f.foodID}}>-</button>
+        </form>
+        <div style="line-height: 30px; color: #000;" align='center'>{{count[food.index(f)]}}</div>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+</div>
+{%endif%}
+
+{% endblock %}

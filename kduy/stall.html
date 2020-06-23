@@ -8,29 +8,30 @@
 ======================-->
 
 <!--style="display:inline-block;border:1px solid lightgray"-->
-<div class="grid_12" style="display:inline-block; margin-bottom: 30px; clear: both">
-<a href="order{{stall.name}}">
-  <img src=static/images/{{stall.img}} height="300" width="500" align="left">
+<div class="grid_12" style="display:inline-block; margin-bottom: 30px; margin-top: 20px; clear: both"><img src=static/images/{{stall.img}} height="300" width="500" align="left">
+<a href="order{{stall.name}}"> 
   <div class="grid_3" style="display:inline-block">
-    <h2 style="margin-bottom: 0; margin-top: -10px">{{stall.name}}</h2>
+    <h2 style="margin-top: -10px; margin-bottom: 10px">{{stall.name}}</h2>
     <div>{{stall.min}},000-{{stall.max}},000đ</div>
   </div>
 </a>
 </div>
 
-<div class="grid_6" style="display:inline-block;border:1px solid lightgray">
+<div class="grid_7" style="display:inline-block;border:1px solid lightgray">
 
 <form method="POST">
   <div class="container-4" style="float: left; width: 100%; border: none; border-radius: 0px;">
     <input type="search" id="search" name="search" style="width: 100%" placeholder="Tìm món ăn..." />
-    <button class="icon"><i class="fa fa-search"></i></button>
+    <button class="icon" style="border: none;"><i class="fa fa-search"></i></button>
   </div>
 </form>
 
 {%for f in food%}
-  <div class="grid_6" style="display:inline-block; margin: 0; border-top: 1px solid lightgrey"><img src=static/images/{{f.img}} height="150" width="200" align="left">
-    <a href="#" class="link1">+</a>
-    <div class="grid_2" style="margin-left: 20px">
+  <div class="grid_7" style="display:inline-block; margin: 0; border-top: 1px solid lightgrey"><img src=static/images/{{f.img}} style="margin-right: 20px;" height="150" width="200" align="left">
+  <form action="/add" methods="POST">
+    <button class="link1" style="border: none"  name="ID" value={{f.stallID}}-{{f.foodID}}>+</button>
+  </form>
+    <div class="grid_2" style="margin-left: 0px">
       <h2 style="font-size: 25px; margin-bottom: -5px; margin-top: -10px">{{f.name}}</h2>
       <div>{{f.cost}},000đ</div>
     </div>
