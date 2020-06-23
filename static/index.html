@@ -6,145 +6,177 @@
 
 {% block content %}
 
-<!-- test________________________________________________________________________________ -->
-<!-- <form action="/select" method="POST">
-  <input type="submit" value="Pay">
-  </form> -->
-   
-  
-  
-<!-- end test____________________________________________________________________________ -->
+<div class="row">
+  <div class="grid_4">
+    <div class="banner">
+      <div class="gall_block">
+        <img src="{{ url_for('static', filename='images/page1_img1.jpg') }}" alt="">
+        <div class="bann_capt ">
+          <div class="maxheight">
+            <img src="{{ url_for('static', filename='images/icon1.png') }}" alt="">
+            <div class="bann_title">Traditional Cuisine</div>
+            <a href="#">more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid_4">
+    <div class="banner">
+      <div class="gall_block">
+        <div class="bann_capt  bn__1">
+          <div class="maxheight">
+            <img src="{{ url_for('static', filename='images/icon2.png') }}" alt="">
+            <div class="bann_title">Kid’s &amp; Vegan Menu</div>
+            <a href="#">more</a>
+          </div>
+        </div>
+        <img src="{{ url_for('static', filename='images/page1_img2.jpg') }}" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="grid_4">
+    <div class="banner ">
+      <div class="gall_block">
+        <img src="{{ url_for('static', filename='images/page1_img3.jpg') }}" alt="">
+        <div class="bann_capt  bn__2">
+          <div class="maxheight">
+            <img src="{{ url_for('static', filename='images/icon3.png') }}" alt="">
+            <div class="bann_title"> Foreign <br> &amp; cuisine</div>
+            <a href="#">more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid_4">
+    <div class="block1">
+      <div class="count">1.</div>
+      <div class="grid_4"><a href="images/big1.jpg" class="gall_item"><img
+            src="{{ url_for('static', filename='images/kfc.png') }}" alt="" width="100" height="300"></a>
+        <div class="clear"></div>
+      </div>
+      <div class="bq_title color1">KFC</div>
+      Hương vị độc đáo, phong cách phục vụ thân thiện, hết lòng vì khách hàng và bầu không khí nồng nhiệt, ấm cúng tại
+      các nhà hàng là ba chìa khóa chính mở cánh cửa thành công của KFC tại Việt Nam cũng như trên thế giới. KFC Việt
+      Nam đã tạo nên một nét văn hóa ẩm thực mới và đóng góp to lớn vào sự phát triển của ngành công nghiệp thức ăn
+      nhanh tại Việt Nam.
+      <br>
+      <a href="#" class="btn">more</a>
+    </div>
+  </div>
+  <div class="grid_4">
+    <div class="block1">
+      <div class="count">2.</div>
+      <div class="grid_4"><a href="images/big1.jpg" class="gall_item"><img
+            src="{{ url_for('static', filename='images/piza.jpeg') }}" alt="" width="100" height="300"></a>
+        <div class="clear"></div>
+      </div>
+      <div class="bq_title color1">Pizaa Hut</div>
+      Pizza Hut đã sáng tạo thực đơn đa dạng lên tới 14 loại pizza, mì Ý, cơm, súp, các món khai vị, thức uống, tráng
+      miệng khác nhau và đặc biệt đều được đổi mới không ngừng để có thể đáp ứng nhu cầu của những thực khách khó tính
+      nhất. Trên hết, Pizza Hut tiếp tục đảm bảo chất lượng của nguyên liệu dùng để chế biến thực phẩm luôn đạt chuẩn
+      toàn cầu của Tập đoàn YUM!
+      <br>
+      <a href="#" class="btn">more</a>
+    </div>
+  </div>
+  <div class="grid_4">
+    <div class="block1">
+      <div class="count">3.</div>
+      <div class="grid_4"><a href="images/big1.jpg" class="gall_item"><img
+            src="{{ url_for('static', filename='images/hu.jpeg') }}" alt="" width="100" height="300"></a>
+        <div class="clear"></div>
+      </div>
+      <div class="bq_title color1">Hủ tiếu Bà Hiền</div>
+      <p>Hủ tiếu bà Hiền nổi tiếng với nước dùng trong, ngọt, đậm đà từ xương ống. Đảm bảo quý khách sẽ ấn tượng và khó
+        quên huongư vị hủ tiếu có một không hai ở đây. Ngoài ra quán còn các món phở, cháo,...để khách hàng thỏa thích
+        lựa chọn. </p>
 
-
-    <div class="row">
-      <div class="grid_4">
-        <div class="banner">
-		  <div class="gall_block">
-          <img src="{{ url_for('static', filename='images/page1_img1.jpg') }}" alt="">
-          <div class="bann_capt ">
-            <div class="maxheight">
-              <img src="{{ url_for('static', filename='images/icon1.png') }}" alt="">
-              <div class="bann_title">Traditional Cuisine</div>
-              <a href="#">more</a>
-            </div>
-          </div>
+      <br>
+      <a href="#" class="btn">more</a>
+    </div>
+  </div>
+  <div class="grid_12">
+    <div class="box">
+      <div class="row">
+        <div class="grid_5 preffix_1">
+          <h2>Welcome</h2>
+          <p>Chào mừng mọi người đã đến với chuỗi cửa hàng BK FOOD COURT . Châm ngôn của cửa hàng chúng tôi là: thân
+            thiện và an toàn.Chúng tôi tự tin sẽ đem đến cho khách hàng một sự hài lòng nhất</p>
+          <!-- <p>
+            Món ăn được update liên tục hàng ngày. Và menu được thay đổi liên tục để chiều lòng được những thực khách
+            khó
+            tính nhất. Hằng tuần cửa hàng sẽ có voucher giảm giá và đặc biệt vào mỗi cuối tuần sẽ có chương trình: ẨM
+            THỰC
+            CÙNG ÂM NHẠC.
+          </p> -->
+          <p>Chúng tôi hân hạnh đón chào quý khách </p><br>
+          <!-- <a href="#" class="btn">more</a> -->
         </div>
-	   </div>
-      </div>
-      <div class="grid_4">
-        <div class="banner">
-		  <div class="gall_block">
-          <div class="bann_capt  bn__1">
-            <div class="maxheight">
-              <img src="{{ url_for('static', filename='images/icon2.png') }}" alt="">
-              <div class="bann_title">Kid’s &amp; Vegan Menu</div>
-              <a href="#">more</a>
-            </div>
-          </div>
-          <img src="{{ url_for('static', filename='images/page1_img2.jpg') }}" alt="">
-        </div>
-		</div>
-      </div>
-      <div class="grid_4">
-        <div class="banner ">
-		  <div class="gall_block">
-          <img src="{{ url_for('static', filename='images/page1_img3.jpg') }}" alt="">
-          <div class="bann_capt  bn__2">
-            <div class="maxheight">
-              <img src="{{ url_for('static', filename='images/icon3.png') }}" alt="">
-              <div class="bann_title">Happy Hours <br> &amp; Offers</div>
-              <a href="#">more</a>
-            </div>
-          </div>
-		  </div>
-        </div>
-      </div>
-      <div class="grid_4">
-        <div class="block1">
-          <div class="count">1.</div>
-          Vivamus at magna non nunc tristique rhoncus. Aliquam nibh ante, egestas id dictum a, commodo. Praesent faucibus malesuada faucibus. Donec laeet metus id laoreet malesuadarem ipsum dolor 
-          <br>
-          <a href="#" class="btn">more</a>
-        </div>
-      </div>
-      <div class="grid_4">
-        <div class="block1">
-          <div class="count">2.</div>
-          Dasamus at magna non nunc tristique rhoncus. Kliquam nibh ante, egestas id dictum a, commodo. Praesent faucibus malesuada faucibus. Donec laeet metus id laoreet malesuadarem ipsumer 
-          <br>
-          <a href="#" class="btn">more</a>
-        </div>
-      </div>
-      <div class="grid_4">
-        <div class="block1">
-          <div class="count">3.</div>
-          Tervamus at magna non nunc tristique rhoncus. Oliquam nibh ante, egestas id dictum a, commodo. Iraesent faucibus malesuada faucibus. Donec laeet etus id laoreet malesuadarem ipsolo 
-          <br>
-          <a href="#" class="btn">more</a>
-        </div>        
-      </div>
-      <div class="grid_12">
-        <div class="box">
-          <div class="row">
-            <div class="grid_5 preffix_1">
-              <h2>Welcome</h2>
-              <p>Post about this <strong class="color1"><a href="http://blog.templatemonster.com/free-website-templates/" rel="nofollow">freebie</a></strong> will tell all you need to know about it. Need a good choice of <strong class="color1"><a href="http://www.templatemonster.com/properties/topic/food-restaurant/" rel="nofollow">themes</a></strong>? Visit TemplateMonster’s website.</p>
-              Aliquam nibh e,estas id dictum a, commodo. Praesent faucibus malesuada faucibusonec laeet metus id laoreet malesuadarem ipsum dolor sit <br>
-              <a href="#" class="btn">more</a>
-            </div>
-            <div class="grid_5">
+        <!--<div class="grid_5">
               <h2>Feel the Savor of Life</h2>
               Dervamus at magna non nunc tristique rhoncus. Aliquam nibh ante, egestas id dictum a, commodo. Praesent faucibus malesuada ucibus. Donec laeet metus id laoreet malesuadarem ipsum dosit ametctetur adipiscing elit. Nullam consectetur orci sed nulla facilisis consequat. Curabitur vel lorem sit amet nulla ullamcorper fermentum. <br>
               <a href="#" class="btn">more</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="grid_12">
-        <h2>Dishes for You to Try</h2>
-      </div>
-      <div class="gallery">
-        <div class="grid_4"><a href="images/big1.jpg" class="gall_item"><img src="{{ url_for('static', filename='images/page1_img4.jpg') }}" alt=""></a><a href="#" class="link1">+</a><div class="clear"></div></div>
-        <div class="grid_4"><a href="images/big2.jpg" class="gall_item"><img src="{{ url_for('static', filename='images/page1_img5.jpg') }}" alt=""></a><a href="#" class="link1">+</a><div class="clear"></div></div>
-        <div class="grid_4"><a href="images/big3.jpg" class="gall_item"><img src="{{ url_for('static', filename='images/page1_img6.jpg') }}" alt=""></a><a href="#" class="link1">+</a><div class="clear"></div></div>
-      </div>
-      <div class="grid_4">
-        <h2>Testimonials</h2>
-        <blockquote class="bq1">
-          <img src="{{ url_for('static', filename='images/page1_img7.jpg') }}" alt="" class="img_inner fleft noresize">
-          <div class="extra_wrapper">
-            <div class="bq_title color1">Mark Wood</div>
-            Sivamus at magna non nuncer tristique rhoncus. Aliquame nibh ante, egestas id dictumertolom  commodo. Praesent faucib mal.
-            <a href="#"><span class="fa fa-chevron-right"></span>more testimonials</a>
-          </div>
-        </blockquote>
-      </div>
-      <div class="grid_4">
-        <h2>What’s new</h2>
-        <div class="block2">
-          <time datetime="2014-01-01">11<br>June</time>
-          <div class="extra_wrapper">
-            <div class="text1"><a href="#">Vivamus at magna non nunc </a></div>Rehoncus. Aliquam nibh antegestas id dictum a, commodo. Praesenterto faucibus malesuada faucibus
-          </div>
-        </div>
-        <div class="block2">
-          <time datetime="2014-01-01">15<br>APR</time>
-          <div class="extra_wrapper">
-            <div class="text1"><a href="#">Tivamus at magna non nunc </a></div>Rehoncus. Aliquam nibh antegestas id dictum a, commodo. Praesenterto faucibus malesuada faucibu
-          </div>
-        </div>
-      </div>
-      <div class="grid_4">
-        <h2>Opening Hours</h2>
-        <ul class="shed">
-          <li><span>Breakfast:</span> 8AM - 11AM</li>
-          <li><span>Grill Menu:</span> 12AM - 12PM</li>
-          <li><span>Live Musiс:</span> 8AM - 11AM</li>
-        </ul>
+            </div>-->
       </div>
     </div>
+  </div>
+  <div class="grid_12">
+    <h2>Dishes for You to Try</h2>
+  </div>
+  <div class="gallery">
+    <div class="grid_4"><a href="images/big1.jpg" class="gall_item"><img
+          src="{{ url_for('static', filename='images/page1_img4.jpg') }}" alt=""></a><a href="#" class="link1">+</a>
+      <div class="clear"></div>
+    </div>
+    <div class="grid_4"><a href="images/big2.jpg" class="gall_item"><img
+          src="{{ url_for('static', filename='images/page1_img5.jpg') }}" alt=""></a><a href="#" class="link1">+</a>
+      <div class="clear"></div>
+    </div>
+    <div class="grid_4"><a href="images/big3.jpg" class="gall_item"><img
+          src="{{ url_for('static', filename='images/page1_img6.jpg') }}" alt=""></a><a href="#" class="link1">+</a>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="grid_4">
+    <h2>Testimonials</h2>
+    <blockquote class="bq1">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="100" height="100" class="img_inner fleft noresize">
+      <div class="extra_wrapper">
+        <div class="bq_title color1">BK Food Court Team</div>
+        Món ngon Bách Khoa - liều thuốc ngừa rớt môn.
+        <a href="#"><span class="fa fa-chevron-right"></span>more testimonials</a>
+      </div>
+    </blockquote>
+  </div>
+  <div class="grid_4">
+    <h2>What’s new</h2>
+    <div class="block2">
+      <time datetime="2014-01-01">1<br>June</time>
+      <div class="extra_wrapper">
+        <div class="text1"><a href="#">Ngày hội trẻ em</a></div> Khuyến mãi 10% mỗĩ hóa đơn và tặng kẹo cho thiếu nhi
+      </div>
+    </div>
+    <div class="block2">
+      <time datetime="2014-01-01">15<br>APR</time>
+      <div class="extra_wrapper">
+        <div class="text1"><a href="#">Đêm âm nhạc - hát với nhau </a></div>Quý khách có thể tận hưởng những phút giây
+        thăng hoa cùng âm nhạc cùng những món ăn đặc sắc.
+      </div>
+    </div>
+  </div>
+  <div class="grid_4">
+    <h2>Opening Hours</h2>
+    <ul class="shed">
+      <li><span>Breakfast:</span> 8AM - 11AM</li>
+      <li><span>Lunch:</span> 12AM - 12PM</li>
+      <li><span>Dinner:</span> 6PM - 11PM</li>
+
+    </ul>
+  </div>
+</div>
 
 
 
 {% endblock %}
-
