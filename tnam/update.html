@@ -13,17 +13,17 @@
                     <div class="form-row">
                        <div class="col">
                           <label>ID Stall</label>
-                          <input type="text" class="form-control mt-0" placeholder="Nhập ID Stall" required name="">
+                          <input type="text" class="form-control" placeholder="Nhập ID Stall" required name="">
                        </div>
                        <div class="col">
                           <label>Ngày báo cáo</label>
-                          <input type="text" class="form-control mt-0" placeholder="dd/mm/yyyy" required name="">
+                          <input type="text" class="form-control" placeholder="dd/mm/yyyy" required name="">
                        </div>
                     </div>
                  </div>
                  <div class="form-group">
                     <label>iData</label>
-                    <input type="text" class="form-control mt-0 " placeholder="payment,cash,mobilemoney..." required name="">
+                    <input type="text" class="form-control" placeholder="payment,cash,mobilemoney,numofCus,pager,bestseller" required name="">
                  </div>
                  <div class="form-group">
                     <label>Mã xác nhận</label>
@@ -37,9 +37,9 @@
                        <option value="">CS2</option>
                     </select>
                  </div>
-                 <div class="form-row">
+                 <div class="form-group">
                      <div class="col">
-                    <button class="btn btn-success ml-0" type="submit" style="width: 20%;" id="btn1" value="Gui">Gửi</button>
+                    <button class="btn btn-success" type="submit" style="width: 12%;" id="btn1" value="Gui">Gửi</button>
                     <script language="javascript">
                         var button = document.getElementById("btn1");
                         button.onclick = function(){
@@ -48,7 +48,7 @@
                         </script>
                      </div>
                      <div class="col">
-                    <button class="btn btn-warning" type="submit" id="btn" style="width: auto;" value="Ma xac nhan">Nhận mã xác nhận</button>
+                    <button class="btn btn-warning" type="submit" id="btn" value="Ma xac nhan">Nhận mã xác nhận</button>
                     <script language="javascript">
                         var button = document.getElementById("btn");
                         button.onclick = function(){
@@ -64,8 +64,8 @@
     </div>
     
     
-    <!-- <script src="./assets/jquery-3.5.1.min.js"></script>
-    <script src="./assets/bootstrap-4.5.0-dist/js/bootstrap.js"></script> -->
+    <script src="./assets/jquery-3.5.1.min.js"></script>
+    <script src="./assets/bootstrap-4.5.0-dist/js/bootstrap.js"></script>
 
 </body>
 {% endblock %}
