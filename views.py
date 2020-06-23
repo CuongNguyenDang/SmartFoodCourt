@@ -100,7 +100,7 @@ def pay():
     bill = Bill()
     view = PayView()
     select = request.form.get('comp_select')
-
+    c = PayByMachine(None, None, view)
     if select == 'thirdService':
         c = PayByMachine(None, None, view)
     elif select == 'wallet':

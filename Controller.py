@@ -7,8 +7,7 @@ from momo import getUrl
 #Pay
 #____________________________________________________________
 class Payment:
-    def __init__(self,bill,thirdService,customerID,payView):
-        self.bill = bill
+    def __init__(self,thirdService,customerID,payView):
         self.thirdService = thirdService
         self.customerID = customerID
         self.payView = payView
