@@ -795,6 +795,19 @@ header h1 a img {
 }
 
 /*kduy*/
+button {
+    border: none;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+button:hover {
+    color: #aaccaa;
+}
+
 .container-4{
     overflow: hidden;
     width: 400px;
@@ -834,8 +847,7 @@ header h1 a img {
 }
  
 .container-4:hover button.icon:hover{
-    color: #535151;
-    background: white;
+    background: #aaccaa;
 }
 
 /*==================================RESPONSIVE LAYOUTS===============================================*/

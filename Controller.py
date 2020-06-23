@@ -15,7 +15,7 @@ class Payment:
         self.payView.showPaymentUI()
     
     #abstract method
-    def pay(self,bill):
+    def pay(self,cost):
         pass
 
     def saveLog(self):
@@ -26,18 +26,18 @@ class Payment:
 
 class PayByMachine(Payment):
     # overriding abstract method
-    def pay(self,bill):
-        url = getUrl(bill.cost)
+    def pay(self,cost):
+        url = getUrl(cost)
         self.payView.showQRCode(url)
 
 class PayByMobile(Payment):
     # overriding abstract method
-    def pay(self,bill):
+    def pay(self,cost):
         return 0
 
 class PayByWallet(Payment):
     # overriding abstract method
-    def pay(self,bill):
+    def pay(self,cost):
         return 0
 #end Pay
 #____________________________________________________________

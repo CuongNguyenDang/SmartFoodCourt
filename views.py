@@ -13,7 +13,6 @@ from Controller import *
 from Model import *
 from shutil import copyfile
 
-
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -34,11 +33,10 @@ def menu():
 def account():
     """Renders the account page."""
     return render_template(
-    #     'menu.html',
-         'account.html',
-         # title='Menu Page',
-         year=datetime.now().year,
-     )
+        'account.html',
+        # title='Menu Page',
+        year=datetime.now().year,
+    )
 
 # @app.route('/about')
 # def about():
@@ -56,98 +54,104 @@ def orderMainIU():
     """Renders the order page."""
     if request.method == "POST":
         search = request.form['search']
-        return redirect('/ordersearch=%s' %search)
+        return redirect('/order?=%s' %search)
 
-    i=0
-    tmp = stalllist.head
-    lst=[]
-    while i<2:
-        lst.append(tmp)
-        tmp=tmp.next
-        i+=1
-    return render_template(
-        'order.html',
-        stall = lst,
-    )
+    search = request.args.get('')
+    if search is None:
+        i=0
+        tmp = stalllist.head
+        lst=[]
+        while i<2:
+            lst.append(tmp)
+            tmp=tmp.next
+            i+=1
+        return render_template(
+            'order.html',
+            stall = lst,
+        )
+    else:
+        fstall = stalllist.findbyName(search)
+        ffood = stalllist.findfood(search)
+        return render_template(
+            'ordersearch.html',
+            stall = fstall,
+            food = ffood
+        )
 
-@app.route('/ordersearch=<name>',methods=["GET","POST"])
-def orderSearchIU(name):
-    if request.method == "POST":
-        search = request.form['search']
-        return redirect('/ordersearch=%s' %search)
-
-    fstall = stalllist.findbyName(name)
-    ffood = stalllist.findfood(name)
-    return render_template(
-        'ordersearch.html',
-        stall = fstall,
-        food = ffood
-    )
-
-@app.route('/order<name>')
+@app.route('/order<name>', methods=["GET","POST"])
 def stallIU(name):
     stall = stalllist.findbyName(name)[0]
     food = stall.foodlist
+    if request.method == "POST":
+        search = request.form['search']
+        food2 = []
+        for f in food:
+            if search.lower() in f.name.lower():
+                food2.append(f)
+        return render_template(
+            'stall.html',
+            stall = stall,
+            food = food2,
+        )
     return render_template(
         'stall.html',
         stall = stall,
-        food = food,
+        food = food
+    )
+#fix cart
+@app.route('/add', methods=["GET","POST"])
+def addtocart():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    stall = stalllist.findbyID(int(ID[0]))
+    return redirect('/order%s' %stall.name)
+
+@app.route('/add2', methods=["GET","POST"])
+def addtocart2():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    return redirect('/cart')
+
+@app.route('/less', methods=["GET","POST"])
+def less():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.less(food)
+    return redirect('/cart')
+
+@app.route('/remove', methods=["GET","POST"])
+def remove():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.remove(food)
+    return redirect('/cart')
+
+@app.route("/cart")
+def cartIU():
+    return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total()
     )
 
+#end fix cart
 
 @app.route("/pay", methods=['GET', 'POST'])
 def pay():
-    bill = Bill()
     view = PayView()
-    select = request.form.get('comp_select')
+    # select = request.form.get('comp_select')
+
     c = PayByMachine(None, None, view)
-    if select == 'thirdService':
-        c = PayByMachine(None, None, view)
-    elif select == 'wallet':
-        c = PayByWallet(None, None, view)
 
     c.startPay()
-    c.pay(bill)
+    c.pay(cart.total()*1000)
     c.saveLog()
     c.finishPay()
 
     return render_template("index.html")
-
-
-#Nam's part_______________________________________________________
-@app.route('/report', methods=['GET', 'POST'])
-def report():
-    error = None
-    tmp = None
-    idata = None
-    if request.method == 'POST':
-        j = 0
-        _tmp = stalldata.head
-        while j<3:
-            if request.form['idstall'] == str(_tmp.idstall) and request.form['day'] == str(_tmp.day) and request.form['month'] == str(_tmp.month):
-                tmp = _tmp
-                idata = _tmp.iData
-                break
-            else:
-                _tmp = _tmp.next
-                j+=1
-                error = ' Có lỗi, xin thử lại !!!'
-                
-    return render_template('report.html', error=error, stall = tmp , year=datetime.now().year, iData = idata)
-@app.route('/mail', methods = ['GET','POST'])
-def mail():
-    error = None
-    if request.method == 'POST':
-        if str(request.form['mail']) and str(request.form['mail']).strip():
-            error = None
-        else: 
-            error = 'Xin hãy điền mail !!!'
-    return render_template('mail.html', error = error,year=datetime.now().year,)  
-@app.route('/update', methods = ['GET','POST'])
-def update():
-    
-    return render_template('update.html',year=datetime.now().year,)   
-
 
 #Duy's part_________________________________________________________________________
 @app.route('/stallorder')
@@ -181,25 +185,17 @@ def detailorder():
 #___________________________________________________________________________________
 
 class MainUI:
-    def __init__(self):
-        self.payView = PayView()
-        self.orderView = OrderView()
-
+    pass #Do nothing
 
 class PayView:
     def showPaymentUI(self):
         return redirect(url_for('home'))
-
     def showResult(self):
         pass
-
     def showThirdServiceUI(self):
         pass
-
-    def showQRCode(self, qrUrl):
-        webbrowser.open(qrUrl)
-
-
+    def showQRCode(self,qrUrl):
+        return webbrowser.open(qrUrl)
 
 class OrderView:
-    pass  # Do nothing
+    pass #Do nothing
