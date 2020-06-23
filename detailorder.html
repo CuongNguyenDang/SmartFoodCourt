@@ -73,7 +73,7 @@
           <p> </p>
         </div>
         <div class="column"  >
-          <h2>Món ăn</h2>
+          <h2 id="demo">Món ăn</h2>
           <ul>
             <li> {{order1.name[0]}}</li>
             <li> {{order1.name[1]}}</li>
@@ -113,7 +113,7 @@
                      <a onclick="order1.state[1]=status[1]">Đang làm</a>
                      <a onclick="order1.state[1]=status[2]">Đã xong</a>
                      <a onclick="order1.state[1]=status[3]">Xóa</a> -->
-                     <a onclick="Rerender(0)">Chưa làm</a>
+                  <a onclick="Rerender(0)">Chưa làm</a>
                   <a onclick="Rerender(1)">Đang làm</a>
                   <a onclick="Rerender(2)">Đã xong</a>
                   <a onclick="Rerender(3)">Xóa</a>
@@ -164,7 +164,7 @@
   </div>  
 </div>
 <script>
-    
+    //document.getElementById("demo").innerHTML += OrLsjs.
     function Rerender(i) {
       switch (i) 
       {
