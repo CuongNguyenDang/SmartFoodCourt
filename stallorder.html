@@ -7,25 +7,121 @@
           Content
 ======================-->
                <!-- WRITE CODE HERE -->
-<body>
-               <div style="background-color: burlywood">
+              
+                  <style>
+                *{
+                  box-sizing: border-box;
+                }
                 
-                   
-                    <h2 style="font-size: 60px">Khach hang 1</h2>
-                    <ul style="font-size: 20px; background-color: cornsilk ;width: 400px;line-height: 1.6;" src="views">
-                        <li style="color: blue"> Mon an A:<a href="status"> <var>{{state}}</var> </a></li>
-                        <li style="color: blue">Mon an B: <a href="status"> <var>{{state}}</var></a></li>
-                        <li style="color: blue">Mon an C: <a href="status"> <var>{{state}}</var></a></li>
-                        <li style="color: blue"><a href="#"><u> xem them</u></a></li>
-                    </ul>
-                    <h2 style="font-size: 60px">Khach hang 2</h2>
-                    <ul>
-                        <li style="color: blue"><p>Mon an D: </p> <a= href="status.html">state</a></li>
-                        <li style="color: blue"><p>Mon an E: </p> <a= href="status.html">state</a></li>
-                        <li style="color: blue"><p>Mon an F: </p> <a= href="status.html">state</a></li>
-                    </ul>        
-                   
-              </div>
+                /* Create two equal columns that floats next to each other */
+                .column {
+                  float: left;
+                  width: 30%;
+          
+                }
+                .column1 {
+                  float: left;
+                  width: 25pt;
+          
+                }
+                /* Clear floats after the columns */
+                .row:after {
+                  content: "";
+                  display: table;
+                }
+  
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 30%;
+    color: black;
+
+  }
+  .column1 {
+    float: left;
+    width: 30px;
+
+  } */
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+  }
+</style>
+
+<body>
+<div style="background-color: burlywood" >
+  <h2 style="font-size: 40px"> {{ order1.cusname }} </h2>
+    <div style="font-size: 20px; background-color: cornsilk ;width: 800px;line-height: 1.6;">
+      <div class="row">
+        <div class="column1">
+          <p> </p>
+        </div>
+        <div class="column"  >
+          <h2>Món ăn</h2>
+          <ul>
+            <li> {{order1.name[0]}}</li>
+            <li> {{order1.name[1]}}</li>
+            <li> {{order1.name[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Số lượng</h2>
+          <ul>
+            <li> {{order1.quantity[0]}}</li>
+            <li> {{order1.quantity[1]}}</li>
+            <li> {{order1.quantity[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Tình trạng</h2>
+          <ul>
+            <li> {{order1.state[0]}}</li>
+            <li> {{order1.state[1]}}</li>
+            <li> {{order1.state[2]}}</li>
+          </ul>
+        </div>     
+      </div>
+      <a href="testdetail" style="color:blue; size: 30px">...</a>
+    </div>
+  <h2 style="font-size: 40px"> {{ order2.cusname }} </h2>
+    <div style="font-size: 20px; background-color: cornsilk ;width: 800px;line-height: 1.6;">
+      <div class="row">
+        <div class="column1">
+          <p> </p>
+        </div>
+        <div class="column"  >
+          <h2>Món ăn</h2>
+          <ul>
+            <li> {{order2.name[0]}}</li>
+            <li> {{order2.name[1]}}</li>
+            <li> {{order2.name[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Số lượng</h2>
+          <ul>
+            <li> {{order2.quantity[0]}}</li>
+            <li> {{order2.quantity[1]}}</li>
+            <li> {{order2.quantity[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Tình trạng</h2>
+          <ul>
+            <li> {{order2.state[0]}}</li>
+            <li> {{order2.state[1]}}</li>
+            <li> {{order2.state[2]}}</li>
+          </ul>
+        </div>     
+      </div>
+      <a href="detailorder" style="color:blue; size: 30px">...</a>
+    </div>
+  </div>
+    
+</div>
+
 </body>
+
 
 {% endblock %}
