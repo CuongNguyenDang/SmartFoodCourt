@@ -27,6 +27,8 @@ class Payment:
 class PayByMachine(Payment):
     # overriding abstract method
     def pay(self,cost):
+        if cost <= 1000 : 
+            cost = 2000
         url = getUrl(cost)
         self.payView.showQRCode(url)
 

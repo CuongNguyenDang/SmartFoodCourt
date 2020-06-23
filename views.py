@@ -31,14 +31,17 @@ def home():
 @app.route('/menu')
 def menu():
     """Renders the menu page."""
-@app.route('/account')
+
+   
+@app.route('/account', methods=['GET', 'POST'])
 def account():
-    """Renders the account page."""
-    return render_template(
-        'account.html',
-        # title='Menu Page',
-        year=datetime.now().year,
-    )
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            return redirect(url_for('home'))
+    return render_template('account.html', error=error)
 
 # @app.route('/about')
 # def about():
@@ -145,42 +148,59 @@ def cartIU():
 def pay():
     view = PayView()
     # select = request.form.get('comp_select')
+    total = cart.total()*1000
 
     c = PayByMachine(None, None, view)
 
     c.startPay()
-    c.pay(cart.total()*1000)
+    c.pay(total)
     c.saveLog()
     c.finishPay()
-
+    
     return render_template("index.html")
 
 #Duy's part_________________________________________________________________________
+#views
 @app.route('/stallorder')
 def stallorder():
+    
     """Renders the order page."""
     return render_template(
         'stallorder.html',
         # title='Menu Page',
         year=datetime.now().year,
-        state= "Chua nhan"
-        
+        #customer1
+        status=["Chưa làm","Đang làm","Đã xong","Đã xóa"],
+        order=[ord1,ord2],
+        order1=ord1,
+        order2=ord2,
     )
-@app.route('/status')
-def status():
+
+@app.route('/testdetail')
+def testdetail():
     """Renders the order page."""
+    
     return render_template(
-        'status.html',
+        #'detailorder.html',
+        'testdetail.html',
         # title='Menu Page',
         year=datetime.now().year,
+        order=[ord1,ord2],
+        order1=ord1,
+        order2=ord2, 
     )
 @app.route('/detailorder')
 def detailorder():
     """Renders the order page."""
+    
     return render_template(
         'detailorder.html',
+        #'testdetail.html',
         # title='Menu Page',
         year=datetime.now().year,
+        order=[ord1,ord2],
+        order1=ord1,
+        order2=ord2,    
     )
 #Duy's end_________________________________________________________________________
 #Nam's part_______________________________________________________
