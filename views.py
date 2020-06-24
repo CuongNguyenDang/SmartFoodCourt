@@ -43,6 +43,16 @@ def account():
             return redirect(url_for('home'))
     return render_template('account.html', error=error)
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    # error = None
+    # if request.method == 'POST':
+    #     if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+    #         error = 'Invalid Credentials. Please try again.'
+    #     else:
+    #         return redirect(url_for('home'))
+    return render_template('signup.html')
+
 # @app.route('/about')
 # def about():
 #     """Renders the about page."""
@@ -155,9 +165,14 @@ def pay():
     c.startPay()
     c.pay(total)
     c.saveLog()
-    c.finishPay()
-    
-    return render_template("index.html")
+    if c.finishPay() == 0:
+        cart.cancel()
+    return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total()
+    )
 
 #Duy's part_________________________________________________________________________
 #views
