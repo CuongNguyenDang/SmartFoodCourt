@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Báo cáo</title>
+{% endblock %}
+{% block content %}
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+ 
+<body>
+    <div class="container" >
+        <div class="container-fluid mb-5 mt-3">
+            <form action="" method="post">
+                <div class="row mb-5 mt-5">
+                    <div class="col mx-2">
+                      <input type="text" class="form-control form-control-lg mt-4" placeholder="Nhập mail của bạn..." name="mail" value="{{request.form.mail}}" required name="">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-block   btn-outline-info mx-2" style="height: 70%; margin-top: 4 !important;" value="ShowAlert" id="btn"  >Gửi mail</button>
+                        
+                    </div>
+                    {% if error %}
+                    <p class="error"><strong>Error:</strong> {{ error }}
+                    {% endif %}
+                    
+                    {% if noneerror %}
+                    <!-- <p class="noneerror"><strong>Xác nhận:</strong> {{ noneerror }} -->
+                    <script language="javascript">
+                    var button = document.getElementById("btn");
+                    button.onclick = function(){
+                        alert('Đã gửi mail !!!');
+                    }
+                    </script>
+                    {% endif %}
+       </div>   
+            </form>
+            
+        </div>
+    </div>
+    
+    
+   
+
+</body>
+{% endblock %}

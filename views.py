@@ -2,20 +2,18 @@
 Routes and views for the flask application.
 """
 from datetime import datetime
-from flask import render_template, request, redirect, url_for, jsonify, make_response
+from flask import render_template, request, redirect, url_for
 from FoodCourt import app
 import os
 import glob
-import json
 #import Process
 import webbrowser
-import Controller
+from Controller import *
 #import order
 from Model import *
 from shutil import copyfile
 #import Data report
 from Model import stalldata, iData
-
 
 #Route
 #_____________________________________________________________________________
@@ -33,26 +31,14 @@ def home():
 @app.route('/menu')
 def menu():
     """Renders the menu page."""
-
-@app.route('/account', methods=['GET', 'POST'])
+@app.route('/account')
 def account():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
-        else:
-            return redirect(url_for('home'))
-    return render_template('account.html', error=error)
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    # error = None
-    # if request.method == 'POST':
-    #     if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-    #         error = 'Invalid Credentials. Please try again.'
-    #     else:
-    #         return redirect(url_for('home'))
-    return render_template('signup.html')
+    """Renders the account page."""
+    return render_template(
+        'account.html',
+        # title='Menu Page',
+        year=datetime.now().year,
+    )
 
 # @app.route('/about')
 # def about():
@@ -114,19 +100,35 @@ def stallIU(name):
         stall = stall,
         food = food
     )
-
 #fix cart
-@app.route('/add', methods=["POST"])
+@app.route('/add', methods=["GET","POST"])
 def addtocart():
-    Controller.addtoCart(cart,request.form['ID'])
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    stall = stalllist.findbyID(int(ID[0]))
+    return redirect('/order%s' %stall.name)
 
-@app.route('/reduce', methods=["GET","POST"])
+@app.route('/add2', methods=["GET","POST"])
+def addtocart2():
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+    return redirect('/cart')
+
+@app.route('/less', methods=["GET","POST"])
 def less():
-    Controller.reducefromCart(cart,request.form['ID'])
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.less(food)
+    return redirect('/cart')
 
 @app.route('/remove', methods=["GET","POST"])
 def remove():
-    Controller.removefromCart(cart,request.form['ID'])
+    ID = request.args['ID'].split('-')
+    food=stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.remove(food)
+    return redirect('/cart')
 
 @app.route("/cart")
 def cartIU():
@@ -134,7 +136,7 @@ def cartIU():
         'cart.html',
         food = cart.list,
         count = cart.count,
-        total = cart.total
+        total = cart.total()
     )
 
 #end fix cart
@@ -143,65 +145,42 @@ def cartIU():
 def pay():
     view = PayView()
     # select = request.form.get('comp_select')
-    total = cart.total*1000
 
-    c = Controller.PayByMachine(None, None, view)
+    c = PayByMachine(None, None, view)
 
     c.startPay()
-    c.pay(total)
+    c.pay(cart.total()*1000)
     c.saveLog()
-    if c.finishPay() == 0:
-        cart.cancel()
-    return render_template(
-        'cart.html',
-        food = cart.list,
-        count = cart.count,
-        total = cart.total
-    )
+    c.finishPay()
+
+    return render_template("index.html")
 
 #Duy's part_________________________________________________________________________
-#views
-
 @app.route('/stallorder')
 def stallorder():
-    
     """Renders the order page."""
     return render_template(
         'stallorder.html',
         # title='Menu Page',
         year=datetime.now().year,
-        #customer1
-        status=["Chưa làm","Đang làm","Đã xong","Đã xóa"],
-        order=[ord1,ord2],
-        order1=ord1,
-        order2=ord2,
+        state= "Chua nhan"
+        
     )
-
-@app.route('/testdetail')
-def testdetail():
+@app.route('/status')
+def status():
     """Renders the order page."""
-    
     return render_template(
-        #'detailorder.html',
-        'testdetail.html',
+        'status.html',
         # title='Menu Page',
         year=datetime.now().year,
-        order=[ord1,ord2],
-        order1=ord1,
-        order2=ord2, 
     )
 @app.route('/detailorder')
 def detailorder():
     """Renders the order page."""
-    
     return render_template(
         'detailorder.html',
-        #'testdetail.html',
         # title='Menu Page',
         year=datetime.now().year,
-        order=[ord1,ord2],
-        order1=ord1,
-        order2=ord2,    
     )
 #Duy's end_________________________________________________________________________
 #Nam's part_______________________________________________________
@@ -224,20 +203,29 @@ def report():
                 error = ' Có lỗi, xin thử lại !!!'
                 
     return render_template('report.html', error=error, stall = tmp , year=datetime.now().year, iData = idata)
-
 @app.route('/mail', methods = ['GET','POST'])
 def mail():
     error = None
+    noneerror = None
     if request.method == 'POST':
-        if str(request.form['mail']) and str(request.form['mail']).strip():
-            error = None
+        if str(request.form['mail']) != None:
+            noneerror = 'Đã gửi mail !!!'
         else: 
             error = 'Xin hãy điền mail !!!'
-    return render_template('mail.html', error = error,year=datetime.now().year,)  
-
+            
+    return render_template('mail.html', error = error,noneerror = noneerror, year=datetime.now().year,)  
 @app.route('/update', methods = ['GET','POST'])
 def update():
-    return render_template('update.html',year=datetime.now().year,)   
+    error = None
+    noneerror = None
+    if request.method == 'POST':
+        if str(request.form['idstall']) == None or str(request.form['day']) == None or str(request.form['idata']) == None or str(request.form['pass']) != 'xUksl7a' :
+            error = 'Có lỗi !!!'
+        else: 
+            noneerror = 'Đã cập nhật !!!'
+            
+    return render_template('update.html', error = error,noneerror = noneerror, year=datetime.now().year,) 
+     
 #__________________________________________
 #View
 #___________________________________________________________________________________

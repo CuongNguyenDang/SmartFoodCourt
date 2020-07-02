@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Báo cáo</title>
+{% endblock %}
+{% block content %}
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<body>
+    <div class="container">
+        <div class="container-fluid mb-5 mt-3">
+            <form action="" method="post">
+                <div class="form-group">
+                    <div class="form-row">
+                       <div class="col">
+                          <label>ID Stall</label>
+                          <input type="text" class="form-control mt-0" name="idstall" placeholder="Nhập ID Stall" required name="" value="{{request.form.idstall}}"  >
+                       </div>
+                       <div class="col">
+                          <label>Ngày báo cáo</label>
+                          <input type="text" class="form-control mt-0" placeholder="dd/mm/yyyy" name="day" required name="" value="{{request.form.day}}">
+                       </div>
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <label>iData</label>
+                    <input type="text" class="form-control mt-0 " placeholder="payment,cash,mobilemoney..." name="idata" required name="" value="{{request.form.idata}}" >
+                 </div>
+                 <div class="form-group">
+                    <label>Mã xác nhận</label>
+                    <input type="password" class="form-control" placeholder="Mã xác nhận của bạn" name="pass" required name="" value="{{request.form.pass}}" >
+                 </div>
+                 <div class="form-group">
+                    <label>Cơ sở</label>
+                    <select class="form-control">
+                       <option value="" selected>Cơ sở</option>
+                       <option value="">CS1</option>
+                       <option value="">CS2</option>
+                    </select>
+                 </div>
+                 <div class="form-row">
+                     <div class="col">
+                    <button class="btn btn-success ml-0" type="submit" style="width: 20%;" id="btn1" value="Gui">Gửi</button>
+                    {% if error %}
+                    <script language="javascript">
+                     var button = document.getElementById("btn1");
+                     button.onclick = function(){
+                         alert('Cập nhật thất bại !!!');
+                     }
+                     </script>
+                    {% endif %}
+                    
+                    {% if noneerror %}
+                    <!-- <p class="noneerror"><strong>Xác nhận:</strong> {{ noneerror }} -->
+                    <script language="javascript">
+                    var button = document.getElementById("btn1");
+                    button.onclick = function(){
+                        alert('Cập nhật thành công !!!');
+                    }
+                    </script>
+                    {% endif %}
+                     </div>
+                     <div class="col">
+                    <button class="btn btn-warning" type="submit" id="btn" style="width: auto;" value="Ma xac nhan">Nhận mã xác nhận</button>
+                    <script language="javascript">
+                        var button = document.getElementById("btn");
+                        button.onclick = function(){
+                            alert("Mã xác nhận của bạn là xUksl7a");
+                        }
+                        </script>
+                    </div>
+                 </div>
+                
+            </form>
+            
+        </div>
+    </div>
+    
+    
+    <!-- <script src="./assets/jquery-3.5.1.min.js"></script>
+    <script src="./assets/bootstrap-4.5.0-dist/js/bootstrap.js"></script> -->
+
+</body>
+{% endblock %}
