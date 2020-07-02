@@ -10,43 +10,26 @@
 <!-- <!DOCTYPE html> -->
 <!-- <html lang="en"> -->
 
-<head>
-    <meta charset="UTF-8">
-    <title>Flask Intro - login page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
     <center>
-        <div class="container">
-            <h1></h1>
-            <br>
-            <h1>ĐĂNG NHẬP</h1>
-            <br>
+        <div class="loginbox">
+            <img src="static/images/avatar.png" class="avatar">
+            <h1 style="margin-bottom:20px">ĐĂNG NHẬP</h1>
             <form action="" method="post">
-                <div class="form-group">
-                    <input type="text" class="form-control" style="width:50%;" placeholder="Username" name="username"
-                        value="{{
-                         request.form.username }}">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" style="width:50%;" placeholder="Password"
-                        name="password" value="{{request.form.password }}">
-                </div>
-                <input class="btn btn-success" style="width:200px" type="submit" value="Đăng nhập">
-                       <a href="/signup" >       
-                        <button id=" btnSignUp" style="width:200px" class="btn btn-lg btn-primary btn-block" type="button">Đăng kí tài
-                khoản mới</button>
-                <!-- <href="/home/account/signup"> Đăng kí tài khoản mới -->
+                <p>Username</p>
+                <input type="text" placeholder="Enter Username"
+                    name="username" value="{{request.form.username}}">
+                <p>Password</p>
+                <input type="password" placeholder="Enter Password"
+                    name="password" value="{{request.form.password}}">
+                <input type="submit" value="Đăng nhập">
+                <a href="/signup" >
+                    Đăng kí tài khoản mới
                 </a>
             </form>
             {% if error %}
-            <p class="error"><strong>Error:</strong> {{ error }}
+            <p class="error">Error: {{ error }}</p>
                 {% endif %}
         </div>
     </center>
-</body>
-<!-- </html> -->
 
 {% endblock %}

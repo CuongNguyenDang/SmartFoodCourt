@@ -11,6 +11,7 @@
 <div class="grid_12" style="display:inline-block; margin-left: 0px">
   <h2>Kiểm tra giỏ hàng</h2>
 </div>
+<span id="cart">
 {%if food%}
 <div class="grid_10" style="display:inline-block; border: 1px solid lightgray; border-top: 0;">
 {%for f in food%}
@@ -22,28 +23,23 @@
         <div>{{f.cost}},000đ</div>
       </div>
     </div>
-  <div style="display:inline-block; width: 320px; padding-bottom: 30px; padding-top: 10px; float: right">
-    <div style="display:inline-block; width: 100px; margin: 0px; padding-top: 45px; float: right">
-      <form action="/remove" methods="POST" align='center'>
-        <button style="background-color: white; margin: 0; font-size: 15px;"  name="ID" value={{f.stallID}}-{{f.foodID}}>Xóa</button>
-      </form>
+  <div style="display:block; width: 320px; padding-bottom: 30px; padding-top: 10px; float: right">
+    <div style="display:block; width: 100px; margin: 0px; padding-top: 45px; float: right">
+      <a href="javascript:remove('{{f.stallID}}-{{f.foodID}}');" style="margin-left: 20px; font-size: 15px;">
+        Xóa</a>
     </div>
     
-    <div style="display:inline-block; width: 100px; margin: 0px; margin-top: 10px; float: right">
+    <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; float: right">
       <div align='center'>Số tiền</div>
       <br>
       <div style="line-height: 10px; color: #000;" align='center'>{{f.cost*count[food.index(f)]}},000</div>
     </div>
 
-    <div style="display:inline-block; width: 100px; margin: 0px; margin-top: 10px; margin-right: 10px; float: right">
+    <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; margin-right: 10px; float: right">
       <div align='center'>Số lượng</div>
-      <div style="display:inline-block; width: 100px; margin: 0px; margin-top: 10px; float: right">
-        <form action="/add2" methods="POST">
-          <button class="link1" style="font-size: 20px; line-height: 10px; width: 30px; height: 30px; margin: 0"  name="ID" value={{f.stallID}}-{{f.foodID}}>+</button>
-        </form>
-        <form action="/less" methods="POST">
-          <button class="link1" style="font-size: 20px; line-height: 0px; width: 30px; height: 30px; margin: 0; float: left"  name="ID" value={{f.stallID}}-{{f.foodID}}>-</button>
-        </form>
+      <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; float: right">
+        <a href="javascript:addtoCart('{{f.stallID}}-{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px;">+</a>
+        <a href="javascript:reduce('{{f.stallID}}-{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px; float: left">-</a>
         <div style="line-height: 30px; color: #000" align='center'>{{count[food.index(f)]}}</div>
       </div>
     </div>
@@ -54,18 +50,40 @@
 {%endif%}
 
 <div class="grid_10" style="display:inline-block; border: 0">
-  <div style="display:inline-block; width: 150px; margin: 0px; padding-top: 20px; float: right">
-    <a href="/pay" align='center'>
-      <button style="background-color: white; width: 150px; height: 50px; border: 1px solid lightgray; margin: 0; font-size: 15px;">Thanh toán</button>
+  <div style="display:block; width: 150px; margin: 0px; padding-top: 20px; float: right">
+    <a href="/pay" align='center' >
+      <div style="background-color: white; width: 150px; height: 30px; border: 1px solid darkgray; padding-top: 10px; font-size: 15px;">Thanh toán</div>
     </a>
   </div>
-  <div style="display:inline-block; width: auto; margin-top: -10px; margin-right: 20px; float: right">
+  <div style="display:block; width: auto; margin-top: -10px; margin-right: 20px; float: right">
     <h2 align='right'>{{total}},000đ</h2>
   </div>
-  <div style="display:inline-block; padding-top: 30px; margin-right: 20px; float: right">
+  <div style="display:block; padding-top: 30px; margin-right: 20px; float: right">
     <div style="font-size: 20px" align='right'>Tổng:</div>
   </div>
 </div>
+</span>
 
+
+<script>
+  function addtoCart(foodID) {
+      $.post('/add', {
+          ID: foodID
+      });
+      $('#cart').load(location.href+" #cart>*","");
+  }
+  function reduce(foodID) {
+      $.post('/reduce', {
+          ID: foodID
+      });
+      $('#cart').load(location.href+" #cart>*","");
+  }
+  function remove(foodID) {
+      $.post('/remove', {
+          ID: foodID
+      });
+      $('#cart').load(location.href+" #cart>*","");
+  }
+</script>
 
 {% endblock %}
