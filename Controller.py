@@ -1,6 +1,10 @@
 from abc import abstractmethod 
 from flask import render_template
 from momo import getUrl
+#order
+import Model
+
+
 #main function
 #____________________________________________________________________________________
 
@@ -43,3 +47,19 @@ class PayByWallet(Payment):
         return 0
 #end Pay
 #____________________________________________________________
+
+#order
+def addtoCart(cart, foodID):
+    ID = foodID.split('-')
+    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.addtoCart(food)
+
+def reducefromCart(cart, foodID):
+    ID = foodID.split('-')
+    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.less(food)
+
+def removefromCart(cart, foodID):
+    ID = foodID.split('-')
+    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+    cart.remove(food)
