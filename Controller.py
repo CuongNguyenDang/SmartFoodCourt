@@ -63,3 +63,22 @@ def removefromCart(cart, foodID):
     ID = foodID.split('-')
     food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
     cart.remove(food)
+
+def getCart(cart, text):
+    cart.cancel()
+    if text == '':
+        return
+    foodID = text.split(',')
+    for f in foodID:
+        ID = f.split('-')
+        food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+        for i in range(int(ID[2])):
+            cart.addtoCart(food)
+
+def convertCarttoText(cart):
+    text = ''
+    for f in cart.list:
+        if text != '':
+            text += ','
+        text += str(f.stallID)+"-"+str(f.foodID)+"-"+str(cart.count[cart.list.index(f)])
+    return text
