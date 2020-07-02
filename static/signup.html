@@ -21,15 +21,15 @@
             <input type="password" placeholder="Mật khẩu"
                 name="password" value="{{request.form.password}}">
             <input type="password" placeholder="Xác nhận mật khẩu"
-                name="password" value="{{request.form.password}}">
+                name="confirmpass" value="{{request.form.confirmpass}}">
             <input type="submit" value="Đăng kí">
             <a href="/account" >       
-                Đăng nhập
+                Đã có tài khoản?
             </a>
         </form>
         {% if error %}
-        <p class="error">Error: {{ error }}</p>
-            {% endif %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
     </div>
 </center>
                

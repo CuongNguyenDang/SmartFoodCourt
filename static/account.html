@@ -13,6 +13,7 @@
     <center>
         <div class="loginbox">
             <img src="static/images/avatar.png" class="avatar">
+            {%if not user['id']%}
             <h1 style="margin-bottom:20px">ĐĂNG NHẬP</h1>
             <form action="" method="post">
                 <p>Username</p>
@@ -27,8 +28,16 @@
                 </a>
             </form>
             {% if error %}
-            <p class="error">Error: {{ error }}</p>
-                {% endif %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+            {% else %}
+            <p style="text-align: right">Xin chào {{user['name']}}</p>
+            <p style="text-align: right">Số tiền trong ví: {{user['wallet']}},000đ</p>
+            <br>
+            <a href="/logout" >
+                <input type="submit" value="Đăng xuất">
+            </a>
+            {% endif %}
         </div>
     </center>
 
