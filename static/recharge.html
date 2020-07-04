@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Tài khoản </title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+               <!-- WRITE CODE HERE -->
+<center>
+    <div class="loginbox">
+        <img src="static/images/avatar.png" class="avatar">
+        <h1 style="margin-bottom:20px">NẠP TIỀN</h1>
+        <form action="" method="post">
+            <input type="text" placeholder="Nhập số tiền cần nạp"
+                name="money" value="{{request.form.money}}">
+            <input type="submit" value="Nạp">
+        </form>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</center>
+               
+{% endblock %}
+

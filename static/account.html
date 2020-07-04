@@ -32,8 +32,11 @@
             {% endif %}
             {% else %}
             <p style="text-align: right">Xin chào {{user['name']}}</p>
-            <p style="text-align: right">Số tiền trong ví: {{user['wallet']}},000đ</p>
+            <p style="text-align: right">Số tiền trong ví: {{user['wallet']}}đ</p>
             <br>
+            <a href="/recharge" >
+                <input type="submit" value="Nạp tiền">
+            </a>
             <a href="/logout" >
                 <input type="submit" value="Đăng xuất">
             </a>
