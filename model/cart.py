@@ -5,6 +5,8 @@ class Cart:
         self.total=0
 
     def addtoCart(self,food):
+        if food is None:
+            return
         if food in self.list:
             self.count[self.list.index(food)]+=1
         else:
@@ -26,4 +28,5 @@ class Cart:
 
     def cancel(self):
         self.list.clear()
+        self.count.clear()
         self.total=0
