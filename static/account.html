@@ -37,6 +37,11 @@
             <a href="/logout" >
                 <input type="submit" value="Đăng xuất">
             </a>
+            {% if user['stall_id'] %}
+            <a href="/report" >
+                Xem báo cáo về quầy của bạn
+            </a>
+            {% endif %}
             {% endif %}
         </div>
     </center>

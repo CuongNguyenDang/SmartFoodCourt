@@ -46,9 +46,9 @@ $(function(){
 </form>
 
 {%for f in food%}
-<span id="{{f.stallID}}-{{f.foodID}}">
+<span id="{{f.foodID}}">
   <div class="grid_7" style="display:inline-block; margin: 0; border-top: 1px solid lightgrey"><img src=static/images/{{f.img}} style="margin-right: 20px;" height="150" width="200" align="left">
-    <a href="javascript:addtoCart('{{f.stallID}}-{{f.foodID}}');" class="link1">+</a>
+    <a href="javascript:addtoCart({{f.foodID}});" class="link1">+</a>
     <div class="grid_2" style="margin-left: 0px">
       <h2 style="font-size: 25px; margin-bottom: -5px; margin-top: -10px">{{f.name}}</h2>
       <div>{{f.cost}},000đ</div>

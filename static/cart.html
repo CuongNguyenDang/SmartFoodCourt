@@ -25,7 +25,7 @@
     </div>
   <div style="display:block; width: 320px; padding-bottom: 30px; padding-top: 10px; float: right">
     <div style="display:block; width: 100px; margin: 0px; padding-top: 45px; float: right">
-      <a href="javascript:remove('{{f.stallID}}-{{f.foodID}}');" style="margin-left: 20px; font-size: 15px;">
+      <a href="javascript:remove('{{f.foodID}}');" style="margin-left: 20px; font-size: 15px;">
         Xóa</a>
     </div>
     
@@ -38,8 +38,8 @@
     <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; margin-right: 10px; float: right">
       <div align='center'>Số lượng</div>
       <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; float: right">
-        <a href="javascript:addtoCart('{{f.stallID}}-{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px;">+</a>
-        <a href="javascript:reduce('{{f.stallID}}-{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px; float: left">-</a>
+        <a href="javascript:addtoCart('{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px;">+</a>
+        <a href="javascript:reduce('{{f.foodID}}');" class="link1" style="margin: 0; width: 30px; height: 30px; line-height: 30px; float: left">-</a>
         <div style="line-height: 30px; color: #000" align='center'>{{count[food.index(f)]}}</div>
       </div>
     </div>
