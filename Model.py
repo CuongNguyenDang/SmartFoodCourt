@@ -1,5 +1,10 @@
 import uuid
+from flask_mysqldb import MySQL
+import MySQLdb
 import model.stall, model.cart
+
+mysql = MySQLdb.connect(host = 'sql12.freemysqlhosting.net', user = 'sql12351917', passwd = 'xNkuISNipg', db = 'sql12351917', charset = 'utf8')
+cur = mysql.cursor(MySQLdb.cursors.DictCursor)
 
 class Customer:
     def __init__(self,mode):
@@ -143,26 +148,28 @@ status={"state0":"Chưa làm",
         "state2":"Đã xong",
         "state3":"Đã xóa"}
 #End Duy's part__________________________________
-        
+
+
 #stall
-pizza = model.stall.Food('Pizza','pizzahut/pizza.jpg',200,1)
-spaghetti = model.stall.Food('Mỳ Ý','pizzahut/spaghetti.jpg',80,1)
-salad = model.stall.Food('Salad trộn','pizzahut/salad.jpg',50,1)
-pizzahut = model.stall.Stall('Pizza Hut','pizzahut/pizzahut.jpg',1)
-stalllist = model.stall.StallList(pizzahut)
-pizzahut.addfood(pizza)
-pizzahut.addfood(spaghetti)
-pizzahut.addfood(salad)
+cur.execute("SELECT * FROM food")
+tmp = cur.fetchall()
 
-chicken = model.stall.Food('Gà rán','kfc/ga.jpg',100,1)
-hamburger = model.stall.Food('Hamburger','kfc/hamburger.jpg',50,1)
-rice = model.stall.Food('Cơm','kfc/com.jpg',40,1)
-kfc = model.stall.Stall('KFC','kfc/kfc.jpg',1)
-stalllist.push(kfc)
-kfc.addfood(chicken)
-kfc.addfood(hamburger)
-kfc.addfood(rice)
+food_list = model.stall.FoodList(None)
+for t in tmp:
+    food = model.stall.Food(t['id'],t['name'],t['stall_id'],t['image'],t['cost'],t['status'])
+    food_list.push(food)
 
+cur.execute("SELECT * FROM stall")
+tmp = cur.fetchall()
+stall_list = model.stall.StallList(None)
+for t in tmp:
+    stall = model.stall.Stall(t['id'],t['name'],t['image'],t['status'])
+    stall_list.push(stall)
+    foodID = t['food'].split(',')
+    for f in foodID:
+        tmp2 = food_list.findbyID(int(f))
+        if tmp2 is not None:
+            stall.addfood(tmp2)
 
 #cart
 cart = model.cart.Cart()

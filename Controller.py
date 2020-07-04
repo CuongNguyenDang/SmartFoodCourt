@@ -49,19 +49,16 @@ class PayByWallet(Payment):
 #____________________________________________________________
 
 #order
-def addtoCart(cart, foodID):
-    ID = foodID.split('-')
-    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+def addtoCart(cart, ID):
+    food = Model.food_list.findbyID(ID)
     cart.addtoCart(food)
 
-def reducefromCart(cart, foodID):
-    ID = foodID.split('-')
-    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+def reducefromCart(cart, ID):
+    food = Model.food_list.findbyID(ID)
     cart.less(food)
 
-def removefromCart(cart, foodID):
-    ID = foodID.split('-')
-    food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
+def removefromCart(cart, ID):
+    food = Model.food_list.findbyID(ID)
     cart.remove(food)
 
 def getCart(cart, text):
@@ -71,8 +68,8 @@ def getCart(cart, text):
     foodID = text.split(',')
     for f in foodID:
         ID = f.split('-')
-        food=Model.stalllist.findfoodbyID([int(ID[0]),int(ID[1])])
-        for i in range(int(ID[2])):
+        food = Model.food_list.findbyID(int(ID[0]))
+        for i in range(int(ID[1])):
             cart.addtoCart(food)
 
 def convertCarttoText(cart):
@@ -80,5 +77,5 @@ def convertCarttoText(cart):
     for f in cart.list:
         if text != '':
             text += ','
-        text += str(f.stallID)+"-"+str(f.foodID)+"-"+str(cart.count[cart.list.index(f)])
+        text += str(f.foodID)+"-"+str(cart.count[cart.list.index(f)])
     return text

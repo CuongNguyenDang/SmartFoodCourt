@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import render_template, request, redirect, url_for, jsonify, make_response
 from flask_mysqldb import MySQL
 from FoodCourt import app
+import MySQLdb
 import os
 import glob
 import json
@@ -16,14 +17,9 @@ from Model import *
 from shutil import copyfile
 #import Data report
 
-app.config['MYSQL_HOST'] = 'sql12.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql12351917'
-app.config['MYSQL_PASSWORD'] = 'xNkuISNipg'
-app.config['MYSQL_DB'] = 'sql12351917'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
-userData = {'id':None,'name':None,'wallet':None}
+userData = {'id':None,'name':None,'wallet':None,'stall_id':None}
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -50,7 +46,11 @@ def account():
             userData['name'] = acc['name']
             userData['wallet'] = acc['wallet']
             Controller.getCart(cart,acc['cart'])
-            acc = None
+            cur.execute("SELECT * FROM stall WHERE owner_id = "+ str(userData['id']))
+            acc = cur.fetchone()
+            if acc is not None:
+                userData['stall_id'] = acc['id']
+                acc = None
     return render_template('account.html', error=error, user=userData)
 
 
@@ -93,12 +93,13 @@ def orderMainIU():
     """Renders the order page."""
     if request.method == "POST":
         search = request.form['search']
-        return redirect('/order?=%s' %search)
+        return redirect('/order?search=%s' %search)
 
-    search = request.args.get('')
-    if search is None:
+    search = request.args.get('search')
+    name = request.args.get('stall')
+    if search is None and name is None:
         i=0
-        tmp = stalllist.head
+        tmp = stall_list.head
         lst=[]
         while i<2:
             lst.append(tmp)
@@ -108,48 +109,49 @@ def orderMainIU():
             'order.html',
             stall = lst,
         )
-    else:
-        fstall = stalllist.findbyName(search)
-        ffood = stalllist.findfood(search)
+    if search is not None:
+        fstall = stall_list.findbyName(search)
+        tmp = food_list.findbyName(search)
+        ffood = []
+        for t in tmp:
+            ffood.append({'stall':stall_list.findbyID(t.stallID).name,'food':t})
         return render_template(
             'ordersearch.html',
             stall = fstall,
             food = ffood
         )
-
-@app.route('/order<name>', methods=["GET","POST"])
-def stallIU(name):
-    stall = stalllist.findbyName(name)[0]
-    food = stall.foodlist
-    if request.method == "POST":
-        search = request.form['search']
-        food2 = []
-        for f in food:
-            if search.lower() in f.name.lower():
-                food2.append(f)
+    else:
+        stall = stall_list.findbyName(name)[0]
+        food = stall.foodlist
+        if request.method == "POST":
+            search = request.form['search']
+            food2 = []
+            for f in food:
+                if search.lower() in f.name.lower():
+                    food2.append(f)
+            return render_template(
+                'stall.html',
+                stall = stall,
+                food = food2,
+            )
         return render_template(
             'stall.html',
             stall = stall,
-            food = food2,
+            food = food
         )
-    return render_template(
-        'stall.html',
-        stall = stall,
-        food = food
-    )
 
 #fix cart
 @app.route('/add', methods=["POST"])
 def addtocart():
-    Controller.addtoCart(cart,request.form['ID'])
+    Controller.addtoCart(cart,int(request.form['ID']))
 
 @app.route('/reduce', methods=["GET","POST"])
 def less():
-    Controller.reducefromCart(cart,request.form['ID'])
+    Controller.reducefromCart(cart,int(request.form['ID']))
 
 @app.route('/remove', methods=["GET","POST"])
 def remove():
-    Controller.removefromCart(cart,request.form['ID'])
+    Controller.removefromCart(cart,int(request.form['ID']))
 
 @app.route("/cart")
 def cartIU():
