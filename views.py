@@ -15,11 +15,13 @@ import Controller
 #import order
 from Model import *
 from shutil import copyfile
+from momo import getResult,getUrl
+import time
 #import Data report
 
 mysql = MySQL(app)
 
-userData = {'id':None,'name':None,'wallet':None,'stall_id':None}
+userData = {'id':None,'name':None,'wallet':0,'stall_id':None}
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -53,6 +55,29 @@ def account():
                 acc = None
     return render_template('account.html', error=error, user=userData)
 
+@app.route('/recharge', methods=['GET', 'POST'])
+def recharge():
+    error = None
+    if request.method == 'POST':
+        money = int(request.form['money'])
+
+        v = PayView()
+        url,orderId = getUrl(money)
+        v.showQRCode(url)
+        waiting_time = 600
+        t = 0
+        while (getResult(orderId) != 'Success' and t < waiting_time ):
+            time.sleep(1)
+            t += 1
+
+        if (getResult(orderId) == 'Success'):
+            #if paied success
+            userData['wallet'] += money
+            cur = mysql.connection.cursor()
+            cur.execute(f"UPDATE account SET wallet = {userData['wallet']} WHERE id = {userData['id']}")
+            mysql.connection.commit()
+            return redirect(url_for('account'))
+    return render_template('recharge.html', error=error)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -175,8 +200,9 @@ def pay():
     c.startPay()
     c.pay(total)
     c.saveLog()
-    if c.finishPay() == 0:
-        cart.cancel()
+    c.finishPay()
+    # if c.finishPay() == 0:
+    #     cart.cancel()
     return render_template(
         'cart.html',
         food = cart.list,
@@ -279,6 +305,15 @@ class PayView:
         pass
     def showQRCode(self,qrUrl):
         return webbrowser.open(qrUrl)
+    def showResult(self,orderId):
+        waiting_time = 600
+        t = 0
+        while (getResult(orderId) != 'Success' and t < waiting_time):
+            time.sleep(1)
+            t += 1
+        if (getResult(orderId) == 'Success'):
+            cart.cancel()
+
 
 class OrderView:
     pass #Do nothing

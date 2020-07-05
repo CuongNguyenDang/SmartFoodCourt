@@ -15,6 +15,7 @@ class Payment:
         self.thirdService = thirdService
         self.customerID = customerID
         self.payView = payView
+        self.orderId = 0
     def startPay(self):
         self.payView.showPaymentUI()
     
@@ -33,8 +34,11 @@ class PayByMachine(Payment):
     def pay(self,cost):
         if cost <= 1000 : 
             cost = 2000
-        url = getUrl(cost)
+        url,self.orderId = getUrl(cost)
         self.payView.showQRCode(url)
+    
+    def finishPay(self):
+        self.payView.showResult(self.orderId)
 
 class PayByMobile(Payment):
     # overriding abstract method
