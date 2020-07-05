@@ -169,14 +169,17 @@ def orderMainIU():
 @app.route('/add', methods=["POST"])
 def addtocart():
     Controller.addtoCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route('/reduce', methods=["GET","POST"])
 def less():
     Controller.reducefromCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route('/remove', methods=["GET","POST"])
 def remove():
     Controller.removefromCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route("/cart")
 def cartIU():
@@ -192,22 +195,50 @@ def cartIU():
 @app.route("/pay", methods=['GET', 'POST'])
 def pay():
     view = PayView()
-    # select = request.form.get('comp_select')
+    error = None
+    method = request.form.get('method')
+    if method == 'WALLET' and userData['id'] == None:
+        return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total,
+        error = 'Chưa đăng nhập.'
+        )
+
+    if cart.total == 0:
+        return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total,
+        error = 'Vui lòng chọn món.'
+        )
+
     total = cart.total*1000
 
     c = Controller.PayByMachine(None, None, view)
-
+    if method == 'WALLET':
+        c = Controller.PayByWallet(None,userData['id'],view)
+        if userData['wallet'] < total:
+            return render_template(
+            'cart.html',
+            food = cart.list,
+            count = cart.count,
+            total = cart.total,
+            error = 'Ví không đủ tiền'
+            )
+            
     c.startPay()
     c.pay(total)
     c.saveLog()
     c.finishPay()
-    # if c.finishPay() == 0:
-    #     cart.cancel()
     return render_template(
         'cart.html',
         food = cart.list,
         count = cart.count,
-        total = cart.total
+        total = cart.total,
+        error = None
     )
 
 #Duy's part_________________________________________________________________________

@@ -49,18 +49,37 @@
 </div>
 {%endif%}
 
+
+
+
 <div class="grid_10" style="display:inline-block; border: 0">
   <div style="display:block; width: 150px; margin: 0px; padding-top: 20px; float: right">
-    <a href="/pay" align='center' >
-      <div style="background-color: white; width: 150px; height: 30px; border: 1px solid darkgray; padding-top: 10px; font-size: 15px;">Thanh toán</div>
-    </a>
+    <!-- <a href="/pay" align='center' > -->
+      <form method="POST" action="/pay">
+        <div style="display:block; width: auto; margin-top: 10px; margin-right: -110px; float: right">
+          <select name="method" class="selectpicker form-control">
+            <option value="THIRD_SERVICE">Momo</option>
+            <option value="WALLET">Ví của bạn</option>
+          </select>
+        </div>
+      <button><div style="background-color: white; width: 150px; height: 30px; border: 1px solid darkgray; padding-top: 10px; font-size: 15px;">Thanh toán</div></button>
+      {% if error %}
+          <div style="display:block; width: auto; margin-top: 10px; margin-left: 15px; float: right; color: #f00;"> 
+             <p>{{ error }}</p> 
+          </div>
+      {% endif %}
+      </form>
+    <!-- </a> -->
   </div>
   <div style="display:block; width: auto; margin-top: -10px; margin-right: 20px; float: right">
     <h2 align='right'>{{total}},000đ</h2>
   </div>
+  
   <div style="display:block; padding-top: 30px; margin-right: 20px; float: right">
     <div style="font-size: 20px" align='right'>Tổng:</div>
   </div>
+
+
 </div>
 </span>
 

@@ -48,7 +48,12 @@ class PayByMobile(Payment):
 class PayByWallet(Payment):
     # overriding abstract method
     def pay(self,cost):
-        return 0
+        from views import mysql,userData,cart
+        cur = mysql.connection.cursor()
+        userData['wallet'] -= cost
+        cur.execute(f"UPDATE account SET wallet = {userData['wallet']} WHERE id = {self.customerID}")
+        mysql.connection.commit()
+        cart.cancel()
 #end Pay
 #____________________________________________________________
 
