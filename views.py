@@ -15,13 +15,11 @@ import Controller
 #import order
 from Model import *
 from shutil import copyfile
-from momo import getResult,getUrl
-import time
 #import Data report
 
 mysql = MySQL(app)
 
-userData = {'id':None,'name':None,'wallet':0,'stall_id':None}
+userData = {'id':None,'name':None,'wallet':None,'stall_id':1}
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -39,7 +37,7 @@ def account():
     if request.method == 'POST':
         username = request.form['username']
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM account WHERE username = '"+ username +"'")
+        cur.execute("SELECT * FROM account WHERE username = '"+ username + "'")
         acc = cur.fetchone()
         if acc is None or acc['password'] != request.form['password']:
             error = 'Username hoặc mật khẩu không đúng'
@@ -55,29 +53,6 @@ def account():
                 acc = None
     return render_template('account.html', error=error, user=userData)
 
-@app.route('/recharge', methods=['GET', 'POST'])
-def recharge():
-    error = None
-    if request.method == 'POST':
-        money = int(request.form['money'])
-
-        v = PayView()
-        url,orderId = getUrl(money)
-        v.showQRCode(url)
-        waiting_time = 600
-        t = 0
-        while (getResult(orderId) != 'Success' and t < waiting_time ):
-            time.sleep(1)
-            t += 1
-
-        if (getResult(orderId) == 'Success'):
-            #if paied success
-            userData['wallet'] += money
-            cur = mysql.connection.cursor()
-            cur.execute(f"UPDATE account SET wallet = {userData['wallet']} WHERE id = {userData['id']}")
-            mysql.connection.commit()
-            return redirect(url_for('account'))
-    return render_template('recharge.html', error=error)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -169,17 +144,14 @@ def orderMainIU():
 @app.route('/add', methods=["POST"])
 def addtocart():
     Controller.addtoCart(cart,int(request.form['ID']))
-    return ""
 
 @app.route('/reduce', methods=["GET","POST"])
 def less():
     Controller.reducefromCart(cart,int(request.form['ID']))
-    return ""
 
 @app.route('/remove', methods=["GET","POST"])
 def remove():
     Controller.removefromCart(cart,int(request.form['ID']))
-    return ""
 
 @app.route("/cart")
 def cartIU():
@@ -195,50 +167,21 @@ def cartIU():
 @app.route("/pay", methods=['GET', 'POST'])
 def pay():
     view = PayView()
-    error = None
-    method = request.form.get('method')
-    if method == 'WALLET' and userData['id'] == None:
-        return render_template(
-        'cart.html',
-        food = cart.list,
-        count = cart.count,
-        total = cart.total,
-        error = 'Chưa đăng nhập.'
-        )
-
-    if cart.total == 0:
-        return render_template(
-        'cart.html',
-        food = cart.list,
-        count = cart.count,
-        total = cart.total,
-        error = 'Vui lòng chọn món.'
-        )
-
+    # select = request.form.get('comp_select')
     total = cart.total*1000
 
     c = Controller.PayByMachine(None, None, view)
-    if method == 'WALLET':
-        c = Controller.PayByWallet(None,userData['id'],view)
-        if userData['wallet'] < total:
-            return render_template(
-            'cart.html',
-            food = cart.list,
-            count = cart.count,
-            total = cart.total,
-            error = 'Ví không đủ tiền'
-            )
-            
+
     c.startPay()
     c.pay(total)
     c.saveLog()
-    c.finishPay()
+    if c.finishPay() == 0:
+        cart.cancel()
     return render_template(
         'cart.html',
         food = cart.list,
         count = cart.count,
-        total = cart.total,
-        error = None
+        total = cart.total
     )
 
 #Duy's part_________________________________________________________________________
@@ -277,35 +220,22 @@ def detailorder():
     """Renders the order page."""
     
     return render_template(
-        'detailorder.html',
-        #'testdetail.html',
-        # title='Menu Page',
-        year=datetime.now().year,
-        order=[ord1,ord2],
-        order1=ord1,
-        order2=ord2,    
-    )
-#Duy's end_________________________________________________________________________
-#Nam's part_______________________________________________________
+        'detailorder.html',)
+
 @app.route('/report', methods=['GET', 'POST'])
 def report():
-    error = None
-    tmp = None
-    idata = None
+    if userData['stall_id'] is None:
+        error = 'Vui lòng đăng nhập'
+    else:
+        error = None
+    info = None
+    cur = mysql.connection.cursor()
     if request.method == 'POST':
-        j = 0
-        _tmp = stalldata.head
-        while j<3:
-            if request.form['idstall'] == str(_tmp.idstall) and request.form['day'] == str(_tmp.day) and request.form['month'] == str(_tmp.month):
-                tmp = _tmp
-                idata = _tmp.iData
-                break
-            else:
-                _tmp = _tmp.next
-                j+=1
-                error = ' Có lỗi, xin thử lại !!!'
-                
-    return render_template('report.html', error=error, stall = tmp , year=datetime.now().year, iData = idata)
+        date = request.form['year']+"-"+request.form['month']+"-"+request.form['day']
+        info = StallInfo(cur,userData['stall_id'],date,stall_list)
+        if info.stallid is None:
+            error = 'Có lỗi, xin thử lại !!!'
+    return render_template('report.html', error=error, info = info)
 
 @app.route('/mail', methods = ['GET','POST'])
 def mail():
@@ -319,7 +249,27 @@ def mail():
 
 @app.route('/update', methods = ['GET','POST'])
 def update():
-    return render_template('update.html',year=datetime.now().year,)   
+    food = stall_list.findbyID(userData['stall_id']).foodlist
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        date = request.form['date']
+        payment = request.form['payment']
+        pager = request.form['pager']
+        a = ''
+        for f in food:
+            tmp = request.form['food_'+str(f.foodID)]
+            if a == '':
+                a += str(f.foodID) + '-' + tmp
+            else:
+                a += ',' + str(f.foodID) + '-' + tmp
+        cur.execute("SELECT * FROM report WHERE "+ "date"+ " = '"+ date +"'")
+        exist = cur.fetchone()
+        if exist is not None:
+            cur.execute("UPDATE report SET stall_id=" + str(userData['stall_id']) + ", payment=" + str(payment) +",food='"+ a +"',pager="+str(pager)+" WHERE date = '"+date+"'")
+        else:
+            cur.execute("INSERT INTO report (stall_id, date, payment,food, pager) VALUES  ("+ str(userData['stall_id']) +",'"+ str(date)  + "'," + str(payment) + ",'" + a +"',"+str(pager)+")")     
+        mysql.connection.commit()
+    return render_template('update.html', food=food)
 #__________________________________________
 #View
 #___________________________________________________________________________________
@@ -336,15 +286,6 @@ class PayView:
         pass
     def showQRCode(self,qrUrl):
         return webbrowser.open(qrUrl)
-    def showResult(self,orderId):
-        waiting_time = 600
-        t = 0
-        while (getResult(orderId) != 'Success' and t < waiting_time):
-            time.sleep(1)
-            t += 1
-        if (getResult(orderId) == 'Success'):
-            cart.cancel()
-
 
 class OrderView:
     pass #Do nothing
