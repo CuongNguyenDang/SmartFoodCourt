@@ -15,11 +15,13 @@ import Controller
 #import order
 from Model import *
 from shutil import copyfile
+from momo import getResult,getUrl
+import time
 #import Data report
 
 mysql = MySQL(app)
 
-userData = {'id':None,'name':None,'wallet':None,'stall_id':1}
+userData = {'id':None,'name':None,'wallet':0,'stall_id':1}
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -87,6 +89,30 @@ def logout():
     cart.cancel()
     return redirect(url_for('account'))
 
+@app.route('/recharge', methods=['GET', 'POST'])
+def recharge():
+    error = None
+    if request.method == 'POST':
+        money = int(request.form['money'])
+
+        v = PayView()
+        url,orderId = getUrl(money)
+        v.showQRCode(url)
+        waiting_time = 600
+        t = 0
+        while (getResult(orderId) != 'Success' and t < waiting_time ):
+            time.sleep(1)
+            t += 1
+
+        if (getResult(orderId) == 'Success'):
+            #if paied success
+            userData['wallet'] += money
+            cur = mysql.connection.cursor()
+            cur.execute(f"UPDATE account SET wallet = {userData['wallet']} WHERE id = {userData['id']}")
+            mysql.connection.commit()
+            return redirect(url_for('account'))
+    return render_template('recharge.html', error=error)
+
 #order 
 @app.route('/order',methods=["GET","POST"])
 def orderMainIU():
@@ -144,14 +170,17 @@ def orderMainIU():
 @app.route('/add', methods=["POST"])
 def addtocart():
     Controller.addtoCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route('/reduce', methods=["GET","POST"])
 def less():
     Controller.reducefromCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route('/remove', methods=["GET","POST"])
 def remove():
     Controller.removefromCart(cart,int(request.form['ID']))
+    return ""
 
 @app.route("/cart")
 def cartIU():
@@ -167,21 +196,51 @@ def cartIU():
 @app.route("/pay", methods=['GET', 'POST'])
 def pay():
     view = PayView()
-    # select = request.form.get('comp_select')
+    error = None
+    method = request.form.get('method')
+    if method == 'WALLET' and userData['id'] == None:
+        return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total,
+        error = 'Chưa đăng nhập.'
+        )
+
+    if cart.total == 0:
+        return render_template(
+        'cart.html',
+        food = cart.list,
+        count = cart.count,
+        total = cart.total,
+        error = 'Vui lòng chọn món.'
+        )
     total = cart.total*1000
 
     c = Controller.PayByMachine(None, None, view)
 
+    if method == 'WALLET':
+        c = Controller.PayByWallet(None,userData['id'],view)
+        if userData['wallet'] < total:
+            return render_template(
+            'cart.html',
+            food = cart.list,
+            count = cart.count,
+            total = cart.total,
+            error = 'Ví không đủ tiền'
+            )
+
     c.startPay()
     c.pay(total)
     c.saveLog()
-    if c.finishPay() == 0:
-        cart.cancel()
+    c.finishPay()
+
     return render_template(
         'cart.html',
         food = cart.list,
         count = cart.count,
-        total = cart.total
+        total = cart.total,
+        error = None
     )
 
 #Duy's part_________________________________________________________________________
@@ -281,7 +340,13 @@ class PayView:
     def showPaymentUI(self):
         return redirect(url_for('home'))
     def showResult(self):
-        pass
+        waiting_time = 600
+        t = 0
+        while (getResult(orderId) != 'Success' and t < waiting_time):
+            time.sleep(1)
+            t += 1
+        if (getResult(orderId) == 'Success'):
+            cart.cancel()
     def showThirdServiceUI(self):
         pass
     def showQRCode(self,qrUrl):

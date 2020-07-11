@@ -1069,3 +1069,61 @@ button:hover {
     }
 
 }
+
+/*nam*/
+.dropdown {
+    background-color: #535151;
+    border: none;
+    display: inline-block;
+    height: 40px;
+    width: 150px;
+    margin-top: 30px;
+    margin-right: 20px;
+}
+.dropdown:before, .dropdown:after {
+    border: none;
+    height: 0;
+    right: 10px;
+    top: 9px;
+    width: 0;
+    z-index: 2;
+}
+.dropdown:before {
+    border-bottom-style: solid;
+    border-top: medium none;
+}
+.dropdown:after {
+    border-bottom: medium none;
+    border-top-style: solid;
+    margin-top: 7px;
+}
+.dropdown-select {
+    background: none;
+    border: 0 none;
+    border-radius: 0;
+    color: black;
+    font-size: 16px;
+    height: 40px;
+    line-height: 16px;
+    margin: 0;
+    padding: 6px 8px 6px 10px;
+    position: relative;
+    width: 100%;
+}
+.table {
+    
+}
+.table tr {
+    font-size: 16px;
+    font-weight: bolder;
+}
+.table th {
+    color: white;
+    width: 100px;
+    padding: 10px 0 10px 0;
+}
+.table td {
+    color: black;
+    width: auto;
+    padding: 15px;
+}

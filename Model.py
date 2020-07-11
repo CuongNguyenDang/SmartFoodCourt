@@ -136,6 +136,4 @@ class StallInfo:
             self.bestseller = food.name
         else:
             self.stallid = None
-
-
 #__________________end Nam's Class
