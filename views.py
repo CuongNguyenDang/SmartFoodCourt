@@ -339,7 +339,7 @@ class MainUI:
 class PayView:
     def showPaymentUI(self):
         return redirect(url_for('home'))
-    def showResult(self):
+    def showResult(self,orderId):
         waiting_time = 600
         t = 0
         while (getResult(orderId) != 'Success' and t < waiting_time):
