@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đơn hàng</title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+               <!-- WRITE CODE HERE -->
+
+<style>
+     .dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}          
+  
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 30%;
+    color: black;
+    line-height: 60px;
+
+  }
+  .column1 {
+    float: left;
+    width: 30px;
+
+  } */
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+  }
+  </style>
+
+<body style="background-color:blanchedalmond;">
+  {%for ors in order %}
+  {%if ors.cusname %}
+    <div style="background-color: blanchedalmond;">
+      <a href="detailorder"> 
+          <h2 style="text-align: center;">{{ors.cusname}}</h2>
+      </a>
+    </div>
+  {%endif%}
+  <div style="text-align: center;">
+  <div style="background-color: burlywood;">
+    <div class="row">
+      <div class="column1">
+        <p> </p>
+      </div>
+    {%if ors.name%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: white; ">Món ăn</h2>
+        <ul>
+
+        {%for foodname in ors.name%}
+        <li style="font-size: 25px; color: black; line-height: 60px;">{{foodname}}
+        {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+    {%if ors.quantity%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: black; color: white">Số lượng</h2>
+        <ul>
+        {%for foodquan in ors.quantity%}
+        <li style="font-size: 25px; color: black; line-height: 60px;">{{foodquan}}
+        {%endfor%}
+        </ul>
+    </div> 
+    {%endif%}
+    {%if ors.state%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: white;">Trạng thái</h2>
+        <ul>
+        {%for foodstat in ors.state%}
+       
+          <div class="dropdown">
+            <button class="dropbtn">{{foodstat}}</button>
+               <div class="dropdown-content">
+                <a onclick="Rerender(0)">Chưa làm</a>
+                <a onclick="Rerender(1)">Đang làm</a>
+                <a onclick="Rerender(2)">Đã xong</a>
+                <a onclick="Rerender(3)">Xóa</a>
+                </div>
+        </div> 
+        <br>
+        {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+  </div>
+</div>
+    </div>
+<script>
+    //document.getElementById("demo").innerHTML += OrLsjs.
+    function Rerender(i) {
+      switch (i) 
+      {
+        case 0:  
+          alert("Thay đổi trạng thái sang chưa làm")
+          history.go(0)  
+          break;
+        case 1:
+        alert("Thay đổi trạng thái sang đang làm")
+        history.go(0)  
+          break;
+        case 2:
+        alert("Thay đổi trạng thái sang đã xong")
+        history.go(0)  
+          break;
+        case 3:
+        alert("Đã xóa")
+        history.go(0)  
+        break;
+      }
+    }
+</script>
+</body>
+{%endfor%}
+
+
+{% endblock %}

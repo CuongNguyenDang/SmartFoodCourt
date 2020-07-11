@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Đơn hàng</title>
+{% endblock %}
+{% block content %}
+<!--=====================
+          Content
+======================-->
+               <!-- WRITE CODE HERE -->
+              
+<style>
+                *{
+                  box-sizing: border-box;
+                }
+                
+               
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 453px;
+    color: black;
+
+  }
+  .column1 {
+    float: left;
+    width: 30px;
+
+  } */
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+  }
+</style>
+
+<body>
+<!-- <div style="background-color: burlywood" >
+  <h2 style="font-size: 40px"> {{ order1.cusname }} </h2>
+    <div style="font-size: 20px; background-color: cornsilk ;width: 800px;line-height: 1.6;">
+      <div class="row">
+        <div class="column1">
+          <p> </p>
+        </div>
+        <div class="column"  >
+          <h2>Món ăn</h2>
+          <ul>
+            <li> {{order1.name[0]}}</li>
+            <li> {{order1.name[1]}}</li>
+            <li> {{order1.name[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Số lượng</h2>
+          <ul>
+            <li> {{order1.quantity[0]}}</li>
+            <li> {{order1.quantity[1]}}</li>
+            <li> {{order1.quantity[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Tình trạng</h2>
+          <ul>
+            <li> {{order1.state[0]}}</li>
+            <li> {{order1.state[1]}}</li>
+            <li> {{order1.state[2]}}</li>
+          </ul>
+        </div>     
+      </div>
+      <a href="testdetail" style="color:blue; size: 30px">...</a>
+    </div>
+  <h2 style="font-size: 40px"> {{ order2.cusname }} </h2>
+    <div style="font-size: 20px; background-color: cornsilk ;width: 800px;line-height: 1.6;">
+      <div class="row">
+        <div class="column1">
+          <p> </p>
+        </div>
+        <div class="column"  >
+          <h2>Món ăn</h2>
+          <ul>
+            <li> {{order2.name[0]}}</li>
+            <li> {{order2.name[1]}}</li>
+            <li> {{order2.name[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Số lượng</h2>
+          <ul>
+            <li> {{order2.quantity[0]}}</li>
+            <li> {{order2.quantity[1]}}</li>
+            <li> {{order2.quantity[2]}}</li>
+          </ul>
+        </div>
+        <div class="column">
+          <h2>Tình trạng</h2>
+          <ul>
+            <li> {{order2.state[0]}}</li>
+            <li> {{order2.state[1]}}</li>
+            <li> {{order2.state[2]}}</li>
+          </ul>
+        </div>     
+      </div>
+      <a href="detailorder" style="color:blue; size: 30px">...</a>
+    </div>
+  </div>
+    
+</div> -->
+<!--style="display:inline-block;border:1px solid lightgray"-->
+<div  style="background-color: blanchedalmond;">
+{%for ors in order %}
+  {%if ors.cusname %}
+          <h2 style=" color: black;" >Tên khách: {{ors.cusname}}</p>
+  {%endif%}
+  <div style="text-align: center;">
+  <div style="background-color: burlywood;">
+    <div class="row">
+      <div class="column1">
+        <p> </p>
+      </div>
+    {%if ors.name%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: white; ">Món ăn</h2>
+        <ul>
+
+        {%for x in limit%}
+        {%if ors.name[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.name[x]}}</li>
+        {%endif%}
+        {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+    {%if ors.quantity%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: black; color: white">Số lượng</h2>
+        <ul>
+        {%for x in limit%}
+        {%if ors.quantity[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.quantity[x]}}</li>
+        {%endif%}
+        {%endfor%}
+        </ul>
+    </div> 
+    {%endif%}
+    {%if ors.state%}
+    <div class="column"  >
+      <h2 style="font-size: 30px; background-color: white;">Trạng thái</h2>
+        <ul>
+        {%for x in limit%}
+        {%if ors.state[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.state[x]}}</li>
+        {%endif%}
+        {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+  </div>
+ 
+  </div>
+</div>
+{%if ors.name[3]%}
+<p style="color: white; font-size: 30px;text-align: left;background-color: blue; height: 50px; line-height: -20px;"><a href="detailorder" >Xem thêm</a></p>
+{%else}
+<p style="color: white; font-size: 30px;text-align: left;background-color: blue; height: 50px; line-height: -20px;"><a href="detailorder" >Hiệu chỉnh</a></p>
+{%endif%}
+
+{%endfor%}
+</div>
+</body>
+{% endblock %}
