@@ -8,32 +8,16 @@
 ======================-->
                <!-- WRITE CODE HERE -->
               
-                  <style>
+<style>
                 *{
                   box-sizing: border-box;
                 }
                 
-                /* Create two equal columns that floats next to each other */
-                .column {
-                  float: left;
-                  width: 30%;
-          
-                }
-                .column1 {
-                  float: left;
-                  width: 25pt;
-          
-                }
-                /* Clear floats after the columns */
-                .row:after {
-                  content: "";
-                  display: table;
-                }
-  
+               
   /* Create two equal columns that floats next to each other */
   .column {
     float: left;
-    width: 30%;
+    width: 453px;
     color: black;
 
   }
@@ -121,14 +105,10 @@
     
 </div> -->
 <!--style="display:inline-block;border:1px solid lightgray"-->
-
+<div  style="background-color: blanchedalmond;">
 {%for ors in order %}
   {%if ors.cusname %}
-    <div style="background-color: blanchedalmond;">
-      <a href="detailorder"> 
-          <h2>Tên khách hàng: {{ors.cusname}}</h2>
-      </a>
-    </div>
+          <h2 style=" color: black;" >Tên khách: {{ors.cusname}}</p>
   {%endif%}
   <div style="text-align: center;">
   <div style="background-color: burlywood;">
@@ -141,8 +121,10 @@
       <h2 style="font-size: 30px; background-color: white; ">Món ăn</h2>
         <ul>
 
-        {%for foodname in ors.name%}
-        <li style="font-size: 25px; color: black; line-height: 40px;">{{foodname}}
+        {%for x in limit%}
+        {%if ors.name[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.name[x]}}</li>
+        {%endif%}
         {%endfor%}
         </ul>
     </div>
@@ -151,8 +133,10 @@
     <div class="column"  >
       <h2 style="font-size: 30px; background-color: black; color: white">Số lượng</h2>
         <ul>
-        {%for foodquan in ors.quantity%}
-        <li style="font-size: 25px; color: black; line-height: 40px;">{{foodquan}}
+        {%for x in limit%}
+        {%if ors.quantity[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.quantity[x]}}</li>
+        {%endif%}
         {%endfor%}
         </ul>
     </div> 
@@ -161,16 +145,25 @@
     <div class="column"  >
       <h2 style="font-size: 30px; background-color: white;">Trạng thái</h2>
         <ul>
-        {%for foodstat in ors.state%}
-        <li style="font-size: 25px; color: black; line-height: 40px;">{{foodstat}}
+        {%for x in limit%}
+        {%if ors.state[x]%}
+        <li style="font-size: 25px; color: black; line-height: 40px;">{{ors.state[x]}}</li>
+        {%endif%}
         {%endfor%}
         </ul>
     </div>
     {%endif%}
   </div>
+ 
   </div>
 </div>
-</body>
+{%if ors.name[3]%}
+<p style="color: white; font-size: 30px;text-align: left;background-color: blue; height: 50px; line-height: -20px;"><a href="detailorder" >Xem thêm</a></p>
+{%else%}
+<p style="color: white; font-size: 30px;text-align: left;background-color: blue; height: 50px; line-height: -20px;"><a href="detailorder" >Hiệu chỉnh</a></p>
+{%endif%}
 
 {%endfor%}
+</div>
+</body>
 {% endblock %}

@@ -259,6 +259,7 @@ def stallorder():
         order=[ord1,ord2],
         order1=ord1,
         order2=ord2,
+        limit=[1,2,3],
     )
 
 @app.route('/testdetail')
@@ -279,7 +280,14 @@ def detailorder():
     """Renders the order page."""
     
     return render_template(
-        'detailorder.html',)
+        'detailorder.html',
+        #'testdetail.html',
+        # title='Menu Page',
+        year=datetime.now().year,
+        order=[ord1,ord2],
+        order1=ord1,
+        order2=ord2,    
+    )
 
 @app.route('/report', methods=['GET', 'POST'])
 def report():
