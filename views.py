@@ -140,7 +140,7 @@ def orderUI():
         tmp = food_list.findbyName(search)
         ffood = []
         for t in tmp:
-            ffood.append({'stall':stall_list.findbyID(t.stallID).name,'food':t})
+            ffood.append({'stall':stall_list.findbyID(t.stallID),'food':t})
         return render_template(
             'ordersearch.html',
             stall = fstall,
