@@ -2,16 +2,7 @@
 {% block title %}
 <title>Đặt món</title>
 {% endblock %}
-{% block head %}
-<script>
-$(function(){
-  $('#1-2').show();
-  $("btn").click(function(){
-    $("#1-2").hide();
-  })
-});
-</script>
-{% endblock %}
+
 {% block content %}
 <!--=====================
           Content
@@ -28,7 +19,7 @@ $(function(){
 </div>
 
 <div class="grid_12" style="display:inline-block; margin-bottom: 30px; clear: both"><img src=static/images/{{stall.img}} height="300" width="500" align="left">
-<a href="order{{stall.name}}"> 
+<a href="order?stall={{stall.name}}">
   <div class="grid_3" style="display:inline-block">
     <h2 style="margin-top: -10px; margin-bottom: 10px">{{stall.name}}</h2>
     <div>{{stall.min}},000-{{stall.max}},000đ</div>
@@ -49,7 +40,7 @@ $(function(){
 <span id="{{f.foodID}}">
   <div class="grid_7" style="display:inline-block; margin: 0; border-top: 1px solid lightgrey"><img src=static/images/{{f.img}} style="margin-right: 20px;" height="150" width="200" align="left">
     <a href="javascript:addtoCart({{f.foodID}});" class="link1">+</a>
-    <div class="grid_2" style="margin-left: 0px">
+    <div class="grid_2" style="display: inline-block; width: 100px; margin-left: 0px">
       <h2 style="font-size: 25px; margin-bottom: -5px; margin-top: -10px">{{f.name}}</h2>
       <div>{{f.cost}},000đ</div>
     </div>
@@ -63,6 +54,7 @@ $(function(){
     $.post('/add', {
       ID: foodID
     });
+    alert('Đã thêm món ăn vào giỏ hàng');
     $('#'+foodID).load(location.href+" #"+foodID+">*","");
   }
 </script>
