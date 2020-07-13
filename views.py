@@ -21,7 +21,7 @@ import time
 
 mysql = MySQL(app)
 
-userData = {'id':None,'name':None,'wallet':0,'stall_id':1}
+userData = {'id':None,'name':None,'wallet':0,'stall_id':None}
 #Route
 #_____________________________________________________________________________
 @app.route('/')
@@ -115,14 +115,14 @@ def recharge():
 
 #order 
 @app.route('/order',methods=["GET","POST"])
-def orderMainIU():
-    """Renders the order page."""
-    if request.method == "POST":
-        search = request.form['search']
-        return redirect('/order?search=%s' %search)
+def orderUI():
+    name = request.args.get('stall')
+    if name is None:
+        if request.method == "POST":
+            search = request.form['search']
+            return redirect('/order?search=%s' %search)
 
     search = request.args.get('search')
-    name = request.args.get('stall')
     if search is None and name is None:
         i=0
         tmp = stall_list.head
@@ -135,7 +135,7 @@ def orderMainIU():
             'order.html',
             stall = lst,
         )
-    if search is not None:
+    if name is None:
         fstall = stall_list.findbyName(search)
         tmp = food_list.findbyName(search)
         ffood = []
