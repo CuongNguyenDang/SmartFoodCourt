@@ -16,17 +16,28 @@
   </form>
 
   <div class="grid_4" style="display:inline-block">
-    <h2 style="margin-bottom: 30px; margin-top: 10px">Best of the week</h2>
+    <h2 style="margin-bottom: 30px; margin-top: 10px">Danh sách quầy</h2>
   </div>
 </div>
 
 <div class="gallery" style="display:inline-block">
 {%for s in stall%}
+{% if s.status %}
 <a href="order?stall={{s.name}}">
-  <div class="grid_3" style="display:inline-block; border:1px solid lightgray; margin-bottom: 30px; width: 270px"><img src=static/images/{{s.img}} height="200" width="100%">
+  <div class="grid_3" style="display:inline-block; border:1px solid lightgray; margin-bottom: 30px; width: 270px">
+    <img src=static/images/{{s.img}} height="200" width="100%">
     <h2 style="font-size: 25px; margin-left: 10px; margin-top: -15px; margin-bottom: 10px">{{s.name}}</h2>
   </div>
 </a>
+{% else %}
+<a href="javascript:alert('Quầy hiện không hoạt động');">
+<div class="grid_3" style="display:inline-block; border:1px solid lightgray; margin-bottom: 30px; width: 270px">
+  <img src=static/images/{{s.img}} height="200" width="100%" style="filter: brightness(50%)">
+  <h2 style="font-size: 25px; margin-left: 10px; margin-top: -15px; margin-bottom: 10px">{{s.name}}</h2>
+</div>
+</a>
+{% endif %}
+
 {%endfor%}
 </div>
 
