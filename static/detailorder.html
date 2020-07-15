@@ -9,6 +9,22 @@
                <!-- WRITE CODE HERE -->
 
 <style>
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn:hover {background: #eee;}
+
+.success {color: green;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+.default {color: black;}
      .dropbtn {
   background-color: #4CAF50;
   color: white;
@@ -47,14 +63,14 @@
   /* Create two equal columns that floats next to each other */
   .column {
     float: left;
-    width: 30%;
+    width: 33%;
     color: black;
     line-height: 60px;
 
   }
   .column1 {
     float: left;
-    width: 30px;
+    width: 1%;
 
   } */
   /* Clear floats after the columns */
@@ -65,90 +81,75 @@
   </style>
 
 <body style="background-color:blanchedalmond;">
-  {%for ors in order %}
-  {%if ors.cusname %}
     <div style="background-color: blanchedalmond;">
       <a href="detailorder"> 
-          <h2 style="text-align: center;">{{ors.cusname}}</h2>
+          <h2 style="text-align: center;">{{order.name}}</h2>
       </a>
     </div>
-  {%endif%}
   <div style="text-align: center;">
   <div style="background-color: burlywood;">
     <div class="row">
       <div class="column1">
         <p> </p>
       </div>
-    {%if ors.name%}
-    <div class="column"  >
-      <h2 style="font-size: 30px; background-color: white; ">Món ăn</h2>
-        <ul>
-
-        {%for foodname in ors.name%}
-        <li style="font-size: 25px; color: black; line-height: 60px;">{{foodname}}
-        {%endfor%}
-        </ul>
+      <div class="column">
+        <h2 style="font-size: 30px; background-color: white; ">Món ăn</h2>
+      </div>
+      <div class="column">
+        <h2 style="font-size: 30px; background-color: black; color: white">Số lượng</h2>
+      </div>
+      <div class="column">
+        <h2 style="font-size: 30px; background-color: white;">Trạng thái</h2>
+      </div>
     </div>
-    {%endif%}
-    {%if ors.quantity%}
-    <div class="column"  >
-      <h2 style="font-size: 30px; background-color: black; color: white">Số lượng</h2>
+    {%for f in order.food%}
+    <div class="row">
+      <div class="column1">
+      <p> </p>
+      </div>
+      <div class="column">
         <ul>
-        {%for foodquan in ors.quantity%}
-        <li style="font-size: 25px; color: black; line-height: 60px;">{{foodquan}}
-        {%endfor%}
+        <li style="font-size: 25px; color: black; line-height: 60px;">{{f.name}}</li>
         </ul>
-    </div> 
-    {%endif%}
-    {%if ors.state%}
-    <div class="column"  >
-      <h2 style="font-size: 30px; background-color: white;">Trạng thái</h2>
+      </div>
+      <div class="column">
         <ul>
-        {%for foodstat in ors.state%}
+        <li style="font-size: 25px; color: black; line-height: 60px;"> {{f.quantity}} </li>
+
+        </ul> 
+      </div>
+    <div class="column"  >
+        <ul>
        
           <div class="dropdown">
-            <button class="dropbtn">{{foodstat}}</button>
+            <button class="dropbtn">{{f.state}}</button>
                <div class="dropdown-content">
-                <a onclick="Rerender(0)">Chưa làm</a>
-                <a onclick="Rerender(1)">Đang làm</a>
-                <a onclick="Rerender(2)">Đã xong</a>
-                <a onclick="Rerender(3)">Xóa</a>
+                {%for s in foodstatus%}
+                <form action="/changestatus{{order.orderID}},{{f.foodID}},{{s}}" method="POST">
+                    {%if status[s] == f.state%}
+                    {%else%}
+                    <button class="btn default" onclick = "alert('Thay đổi trạng thái thành công ')"  name ="req"> {{status[s]}} </button>
+                    {%endif%}
+                </form>
+                {%endfor%}
                 </div>
-        </div> 
+          </div> 
         <br>
-        {%endfor%}
+       
         </ul>
     </div>
-    {%endif%}
-  </div>
-</div>
     </div>
-<script>
-    //document.getElementById("demo").innerHTML += OrLsjs.
-    function Rerender(i) {
-      switch (i) 
-      {
-        case 0:  
-          alert("Thay đổi trạng thái sang chưa làm")
-          history.go(0)  
-          break;
-        case 1:
-        alert("Thay đổi trạng thái sang đang làm")
-        history.go(0)  
-          break;
-        case 2:
-        alert("Thay đổi trạng thái sang đã xong")
-        history.go(0)  
-          break;
-        case 3:
-        alert("Đã xóa")
-        history.go(0)  
-        break;
-      }
-    }
-</script>
-</body>
-{%endfor%}
+    {%endfor%}
+    </div>
+    </div>
 
+</body>
+
+<script>
+   
+  // function Rerender() {
+  //       alert("Thay đổi trạng thái thành công ");   
+  // }
+</script>
 
 {% endblock %}
