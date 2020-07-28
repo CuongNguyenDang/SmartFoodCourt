@@ -1088,20 +1088,11 @@ button:hover {
     width: 0;
     z-index: 2;
 }
-.dropdown:before {
-    border-bottom-style: solid;
-    border-top: medium none;
-}
-.dropdown:after {
-    border-bottom: medium none;
-    border-top-style: solid;
-    margin-top: 7px;
-}
 .dropdown-select {
-    background: none;
-    border: 0 none;
+    background: #535151;
+    border: none;
     border-radius: 0;
-    color: black;
+    color: white;
     font-size: 16px;
     height: 40px;
     line-height: 16px;
