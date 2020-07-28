@@ -20,7 +20,7 @@
       <img src=static/images/{{f.img}} style="margin-right: 20px;" height="120" width="150" align="left">
       <div class="grid_2" style="display:inline-block; width: 100px; margin-left: 0px">
         <h2 style="font-size: 20px; margin-bottom: -5px; margin-top: -20px">{{f.name}}</h2>
-        <div>{{f.cost}},000đ</div>
+        <div>{{"{:,}".format(f.cost)}}đ</div>
       </div>
     </div>
   <div style="display:block; width: 320px; padding-bottom: 30px; padding-top: 10px; float: right">
@@ -32,7 +32,7 @@
     <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; float: right">
       <div align='center'>Số tiền</div>
       <br>
-      <div style="line-height: 10px; color: #000;" align='center'>{{f.cost*count[food.index(f)]}},000</div>
+      <div style="line-height: 10px; color: #000;" align='center'>{{"{:,}".format(f.cost*count[food.index(f)])}}đ</div>
     </div>
 
     <div style="display:block; width: 100px; margin: 0px; margin-top: 10px; margin-right: 10px; float: right">
@@ -72,7 +72,7 @@
     <!-- </a> -->
   </div>
   <div style="display:block; width: auto; margin-top: -10px; margin-right: 20px; float: right">
-    <h2 align='right'>{{total}},000đ</h2>
+    <h2 align='right'>{{"{:,}".format(total)}}đ</h2>
   </div>
   
   <div style="display:block; padding-top: 30px; margin-right: 20px; float: right">

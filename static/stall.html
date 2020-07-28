@@ -25,7 +25,7 @@
 <a href="order?stall={{stall.name}}">
   <div class="grid_3" style="display:inline-block">
     <h2 style="margin-top: -10px; margin-bottom: 10px">{{stall.name}}</h2>
-    <div>{{stall.min}},000-{{stall.max}},000đ</div>
+    <div>{{"{:,}".format(stall.min)}}-{{"{:,}".format(stall.max)}}đ</div>
   </div>
 </a>
 </div>
@@ -51,7 +51,7 @@
     {% endif %}
     <div class="grid_2" style="display: inline-block; width: 100px; margin-left: 0px">
       <h2 style="font-size: 25px; margin-bottom: -5px; margin-top: -10px">{{f.name}}</h2>
-      <div>{{f.cost}},000đ</div>
+      <div>{{"{:,}".format(f.cost)}}đ</div>
     </div>
   </div>
 </span>
