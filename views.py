@@ -215,7 +215,7 @@ def pay():
         total = cart.total,
         error = 'Vui lòng chọn món.'
         )
-    total = cart.total*1000
+    total = cart.total
 
     c = Controller.PayByMachine(None, None, view)
 
