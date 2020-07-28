@@ -7,10 +7,10 @@ The flask application package.
 
 from flask import Flask, render_template
 app = Flask(__name__, template_folder= "static")
-app.config['MYSQL_HOST'] = 'sql12.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql12351917'
-app.config['MYSQL_PASSWORD'] = 'xNkuISNipg'
-app.config['MYSQL_DB'] = 'sql12351917'
+app.config['MYSQL_HOST'] = 'db4free.net'
+app.config['MYSQL_USER'] = 'bk_foodcourt'
+app.config['MYSQL_PASSWORD'] = 'Chim1234'
+app.config['MYSQL_DB'] = 'bk_foodcourt'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 import views
