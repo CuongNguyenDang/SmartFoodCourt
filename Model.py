@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 import MySQLdb
 import model.stall, model.cart
 
-mysql = MySQLdb.connect(host = 'db4free.net', user = 'bk_foodcourt', passwd = 'Chim1234', db = 'bk_foodcourt', charset = 'utf8')
+mysql = MySQLdb.connect(host = 'sql12.freemysqlhosting.net', user = 'sql12358320', passwd = 'PqvDtHlTSL', db = 'sql12358320', charset = 'utf8')
 cur = mysql.cursor(MySQLdb.cursors.DictCursor)
 
 class Customer:
